@@ -5,6 +5,7 @@
 * formik / yup
 * 전역적인건 f7 store 
 * i18next 사용,
+* yarn 으로 통일
 
 ### tailwindcss 사용 필 수 
 
