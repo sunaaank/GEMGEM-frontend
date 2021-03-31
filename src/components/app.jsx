@@ -13,7 +13,6 @@ import { getToken } from '../common/auth';
 import store from '../common/store';
 import { getDevice } from '../js/framework7-custom.js';
 import routes from '../js/routes';
-import { sleep, toast } from '../js/utils';
 import i18n from "../lang/i18n";
 
 
@@ -24,8 +23,6 @@ const MyApp = () => {
   let loggedIn = !!getToken().token;
   const handleLogout = async ()=>{
     await logout()
-    toast.get().setToastText('로그아웃 되었습니다.').openToast()
-    await sleep(1000)
     location.replace('/')
   }
 
@@ -38,19 +35,12 @@ const MyApp = () => {
     // App store
     store: store,
     // App routes
-    routes: routes(loggedIn),
+    routes: routes,
     // Input settings
     view: {
       iosDynamicNavbar: getDevice().ios,
     }
   };
-  
-  f7ready(async () => {
-    // Call F7 APIs here
-    toast.set(f7)
-
-  });
-
   return (
     <App { ...f7params } >
       {/* Left panel with cover effect*/}
@@ -66,28 +56,22 @@ const MyApp = () => {
             </PageContent>
           </Page>
       </Panel>
-      {loggedIn &&
-        (
-          <Views tabs className="safe-areas">
-            {/* Tabbar for switching views-tabs */}
-            <Toolbar tabbar labels bottom>
-              <Link tabLink="#view-home" tabLinkActive icon="las la-home" text="홈" />
-              <Link tabLink="#view-items" icon="las la-gift" text="쇼핑" />
-              <Link tabLink="#view-users" icon="las la-address-book" text="전문가" />
-              <Link tabLink="#view-contacts" icon="las la-edit" text="문의하기" />
-              <Link tabLink="#view-carts" icon="las la-shopping-cart" text="장바구니" />
-            </Toolbar>
-            <View id="view-home" main tab tabActive url="/" iosDynamicNavbar={false} />
-            <View id="view-items" name="items" tab url="/items?is_main=true/" />
-            <View id="view-users" name="users" tab url="/users?is_main=true" />
-            <View id="view-contacts" name="contacts" tab url="/contacts" />
-            <View id="view-carts" name="carts" tab url="/carts" />
-          </Views>
-        ) || (
-          <View id="view-home" main url="/" />
-        )
-      }
+      <Views tabs className="safe-areas">
+        {/* Tabbar for switching views-tabs */}
+        <Toolbar tabbar labels bottom>
+          <Link tabLink="#view-home" tabLinkActive icon="las la-home" text="홈" />
+          <Link tabLink="#view-items" icon="las la-gift" text="쇼핑" />
+          <Link tabLink="#view-users" icon="las la-address-book" text="전문가" />
+          <Link tabLink="#view-contacts" icon="las la-edit" text="문의하기" />
+          <Link tabLink="#view-carts" icon="las la-shopping-cart" text="장바구니" />
+        </Toolbar>
+        <View id="view-home" main tab tabActive url="/" iosDynamicNavbar={false} />
+        <View id="view-items" name="items" tab url="/items?is_main=true/" />
+        <View id="view-users" name="users" tab url="/users?is_main=true" />
+        <View id="view-contacts" name="contacts" tab url="/contacts" />
+        <View id="view-carts" name="carts" tab url="/carts" />
+      </Views>
     </App>
-  )
+  );
 }
 export default MyApp;

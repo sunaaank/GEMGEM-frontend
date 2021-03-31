@@ -22,3 +22,5 @@ export const logout = _ => API.delete('/logout').then(res => {
   destroyToken()
 })
 
+
+export const getItems = params => API.get('/items', params)
