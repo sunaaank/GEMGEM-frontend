@@ -1,6 +1,5 @@
-
 & {
-    @path: '../../node_modules/framework7';
+  @path: "../../node_modules/framework7";
 
   @import (reference) "@{path}/less/mixins.less";
   @import (reference) "@{path}/less/vars.less";
@@ -26,6 +25,7 @@
     gray: #8e8e93;
     white: #ffffff;
     black: #000000;
+    transparent: transparent;
   };
   @rtl: false;
 
@@ -44,7 +44,7 @@
   @import "@{path}/components/touch-ripple/touch-ripple.less";
   @import "@{path}/components/icon/icon.less";
   @import "@{path}/components/modal/modal.less";
- 
+
   //IMPORT_COMPONENTS
 
   @import "@{path}/components/appbar/appbar.less";
@@ -107,5 +107,5 @@
   @includeAuroraTheme: true;
   @includeDarkTheme: true;
   @includeLightTheme: true;
-  @rtl: false
+  @rtl: false;
 }

@@ -6,17 +6,17 @@ import * as Yup from 'yup';
 import { toast, sleep }  from '../../../js/utils.js';
 
 const SignUpSchema = Yup.object().shape({
-  name: Yup.string().required("필수 입력사항 입니다"),
-  email: Yup.string().email().required("필수 입력사항 입니다"),
-  password: Yup.string().min(4, "길이가 너무 짧습니다").max(50, "길이가 너무 깁니다").required("필수 입력사항 입니다"),
-  password_confirmation: Yup.string().oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.').required("필수 입력사항 입니다"),
+  name: Yup.string().required(""),
+  email: Yup.string().email("").required(""),
+  password: Yup.string().min(8, "8자 이상 입력해주세요").max(20, "길이가 너무 깁니다").required(""),
+  password_confirmation: Yup.string().oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.').required(""),
 });
 
 const SignUpPage = () => {
   return (
     <Page>
       <Navbar title="회원가입" backLink={true} sliding={false}></Navbar>
-        <p className="font-semibole text-4xl text-center mt-5">insomenia</p>
+        <p className="font-semibole text-4xl text-center mt-5">GEMGEM</p>
         <Formik 
           initialValues={{ 
             name: '',
