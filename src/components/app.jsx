@@ -57,6 +57,7 @@ const MyApp = () => {
       iosDynamicNavbar: getDevice().ios,
     },
   };
+
   return (
     <App {...f7params}>
       {/* Left panel with cover effect*/}

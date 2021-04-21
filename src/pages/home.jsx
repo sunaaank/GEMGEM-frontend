@@ -23,14 +23,14 @@ const HomePage = () => {
       <Page name="home">
         <div className="page-content p-0 m-0">
           <IntroPage />
-          <div className="block mt-10">
-            <div className="flex flex-col items-center color-theme-black">
+          <div className="block my-10">
+            <div className="flex flex-col items-center">
               <p>💎GEMGEM에 오신 것을 환영합니다💎</p>
               <p>여기는 메인 페이지 입니다.</p>
               <p>파이팅파이팅</p>
             </div>
           </div>
-          <BlockTitle>✨GEMGEM'S PICK</BlockTitle>
+          <BlockTitle className="mx-3">✨GEMGEM'S CATEGORY</BlockTitle>
           <List mediaList inset>
             <ListItem link="#" title="JAMJAMJAM" subtitle="yup">
               <img

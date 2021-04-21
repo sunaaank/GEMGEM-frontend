@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   PageContent,
+  Radio,
   Swiper,
   SwiperSlide,
   Navbar,
@@ -19,6 +20,8 @@ import {
 } from "framework7-react";
 import React from "react";
 import Nav from "../components/nav.jsx";
+import ItemGuide from "../components/itemguide.jsx";
+import Review from "../components/review.jsx";
 
 const ItemPage = () => {
   return (
@@ -46,11 +49,24 @@ const ItemPage = () => {
             <Col width="33" className="mb-3">
               포장방식
             </Col>
-            <Col width="66" className="flex flex-row w-auto mb-3">
-              <Checkbox name="checkbox-1" defaultChecked />
-              <p className="px-2">베이직</p>
-              <Checkbox className="ml-1" name="checkbox-2" />
-              <p className="px-2">프리미엄</p>
+            <Col width="66" className="flex flex-row w-full mb-3">
+              <List className="p-0 m-0 w-full">
+                <ListItem
+                  radio
+                  radioIcon="start"
+                  title="베이직"
+                  value="basic"
+                  name="demo-radio-start"
+                  defaultChecked
+                ></ListItem>
+                <ListItem
+                  radio
+                  radioIcon="start"
+                  title="프리미엄"
+                  value="premium"
+                  name="demo-radio-start"
+                ></ListItem>
+              </List>
             </Col>
           </Row>
           <Row className="flex flex-row w-full mb-3 ">
@@ -74,6 +90,12 @@ const ItemPage = () => {
             </Col>
           </Row>
         </Block>
+        <BlockTitle className="mx-7 my-4">상품 상세정보</BlockTitle>
+        <Block className="flex justify-center mx-7 my-10">
+          <p>🚩🚩🚩 상세이미지를 넣어주세요🚩🚩🚩</p>
+        </Block>
+        <ItemGuide />
+        <Review />
       </PageContent>
     </Page>
   );

@@ -6,6 +6,7 @@ import {
   List,
   ListItem,
   Navbar,
+  NavLeft,
   NavRight,
   Searchbar,
   Page,
@@ -22,6 +23,9 @@ import React from "react";
 const Nav = () => {
   return (
     <Navbar className="no-hairline bg-white">
+      <NavLeft>
+        <Link back>Back</Link>
+      </NavLeft>
       <NavRight>
         <Link
           searchbarEnable=".searchbar-demo"
