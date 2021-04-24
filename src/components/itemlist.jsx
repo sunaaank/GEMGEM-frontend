@@ -11,27 +11,19 @@ import {
 } from "framework7-react";
 import React from "react";
 
-const ItemsList = () => {
+const ItemsList = ({ itemsData }) => {
   return (
     <>
+      <BlockTitle className="pt-10 font-bold">카테고리 1</BlockTitle>
       <Block>
-        <BlockTitle className="pt-10 font-bold">리스트 이름 1</BlockTitle>
         <Swiper navigation speed={500} slidesPerView={2.3} spaceBetween={20}>
-          <SwiperSlide>
-            <img src="https://www.onespan.com/sites/default/files/blog/images/icon.ruby_.png" />
-            <h2>잼1111111</h2>
-            <p>100000원</p>
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src="https://www.onespan.com/sites/default/files/blog/images/icon.ruby_.png" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src="https://www.onespan.com/sites/default/files/blog/images/icon.ruby_.png" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src="https://www.onespan.com/sites/default/files/blog/images/icon.ruby_.png" />
-          </SwiperSlide>
-          <SwiperSlide>이미지 넣기 전🎄</SwiperSlide>
+          {itemsData.map((item, index) => (
+            <SwiperSlide key={index}>
+              <img src={item.image_url} />
+              <h2>{item.name}</h2>
+              <p>{item.price}</p>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </Block>
     </>

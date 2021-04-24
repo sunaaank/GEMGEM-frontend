@@ -51,21 +51,25 @@ const ItemPage = () => {
             </Col>
             <Col width="66" className="flex flex-row w-full mb-3">
               <List className="p-0 m-0 w-full">
-                <ListItem
-                  radio
-                  radioIcon="start"
-                  title="베이직"
-                  value="basic"
-                  name="demo-radio-start"
-                  defaultChecked
-                ></ListItem>
-                <ListItem
-                  radio
-                  radioIcon="start"
-                  title="프리미엄"
-                  value="premium"
-                  name="demo-radio-start"
-                ></ListItem>
+                <ul className="row">
+                  <ListItem
+                    className="col"
+                    radio
+                    radioIcon="start"
+                    title="베이직"
+                    value="basic"
+                    name="demo-radio-start"
+                    defaultChecked
+                  ></ListItem>
+                  <ListItem
+                    className="col"
+                    radio
+                    radioIcon="start"
+                    title="프리미엄"
+                    value="premium"
+                    name="demo-radio-start"
+                  ></ListItem>
+                </ul>
               </List>
             </Col>
           </Row>
