@@ -15,9 +15,6 @@ import {
 } from "framework7-react";
 import "lodash";
 import React from "react";
-import { logout } from "../common/api";
-import { login } from "../common/api";
-import { signup } from "../common/api";
 import { getToken } from "../common/auth";
 import store from "../common/store";
 import { getDevice } from "../js/framework7-custom.js";
@@ -27,21 +24,7 @@ import i18n from "../lang/i18n";
 global.i18next = i18n;
 
 const MyApp = () => {
-  // Login screen demo data
   let loggedIn = !!getToken().token;
-  // const handleLogout = async () => {
-  //   await logout();
-  //   location.replace("/");
-  // };
-  // const handleLogin = async () => {
-  //   await login();
-  //   location.replace("/");
-  // };
-  // const handleSignup = async () => {
-  //   await signup();
-  //   location.replace("/");
-  // };
-
   const device = getDevice();
   // Framework7 Parameters
   const f7params = {
@@ -88,7 +71,7 @@ const MyApp = () => {
           iosDynamicNavbar={false}
         />
         <View id="view-items" name="items" tab url="/items" />
-        <View id="view-useritem" name="wishlist" tab url="/wishlist" />
+        <View id="view-useritem" name="useritem" tab url="/useritem" />
         <View id="view-carts" name="cart" tab url="/cart" />
         <View id="view-users" name="mypage" tab url="/mypage" />
       </Views>

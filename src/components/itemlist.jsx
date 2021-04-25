@@ -11,7 +11,7 @@ import {
 } from "framework7-react";
 import React from "react";
 
-const ItemsList = ({ itemsData }) => {
+const ItemsList = ({ itemsData, goToItem }) => {
   return (
     <>
       <BlockTitle className="pt-10 font-bold">카테고리 1</BlockTitle>
@@ -19,7 +19,7 @@ const ItemsList = ({ itemsData }) => {
         <Swiper navigation speed={500} slidesPerView={2.3} spaceBetween={20}>
           {itemsData.map((item, index) => (
             <SwiperSlide key={index}>
-              <img src={item.image_url} />
+              <img src={item.image_url} onClick={() => goToItem(item.id)} />
               <h2>{item.name}</h2>
               <p>{item.price}</p>
             </SwiperSlide>

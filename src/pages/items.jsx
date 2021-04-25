@@ -24,7 +24,10 @@ import { configs } from "../common/config.js";
 import { getToken } from "../common/auth";
 import { getItems } from "../common/api";
 
-const ItemsPage = () => {
+const ItemsPage = (props) => {
+  const goToItem = (id) => {
+    props.f7router.navigate(`/items/${id}/`);
+  };
   let loggedIn = !!getToken().token;
   const [itemsData, setItemsData] = useState([]);
   useEffect(() => {
@@ -41,7 +44,7 @@ const ItemsPage = () => {
       <div className="page-content">
         <p className="flex justify-center">여기는 잼리스트 페이지 입니다.</p>
         <Link href="/item">잼 상세 페이지 미리보기</Link>
-        <ItemList itemsData={itemsData} />
+        <ItemList itemsData={itemsData} goToItem={goToItem} />
 
         <List>
           {[1, 2, 3].map((n) => (
