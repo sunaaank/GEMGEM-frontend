@@ -25,11 +25,14 @@ import { getToken } from "../common/auth";
 import { getItems } from "../common/api";
 
 const ItemsPage = (props) => {
+  // router params 찾아보기
   const goToItem = (id) => {
     props.f7router.navigate(`/items/${id}/`);
   };
+
   let loggedIn = !!getToken().token;
   const [itemsData, setItemsData] = useState([]);
+  // 아래 함수 async await로 바꿔주세요
   useEffect(() => {
     const fetchItems = getItems().then((res) => {
       setItemsData(res.data);
@@ -41,15 +44,13 @@ const ItemsPage = (props) => {
   return (
     <Page name="items">
       <Nav />
-      <div className="page-content">
-        <ItemList itemsData={itemsData} goToItem={goToItem} />
+      <ItemList itemsData={itemsData} goToItem={goToItem} />
 
-        <List>
-          {[1, 2, 3].map((n) => (
-            <ListItem key={n} title={`Item ${n}`} />
-          ))}
-        </List>
-      </div>
+      <List>
+        {[1, 2, 3].map((n) => (
+          <ListItem key={n} title={`Item ${n}`} />
+        ))}
+      </List>
     </Page>
   );
 };

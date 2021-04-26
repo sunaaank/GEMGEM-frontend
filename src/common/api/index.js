@@ -43,7 +43,5 @@ export const getItems = (params) =>
   API.get("/items", params).then((res) => {
     return res;
   });
-export const getItem = (params) =>
-  API.get(`/items/${params.id}`).then((res) => {
-    return res;
-  });
+// 아래 코드 then 안써도 됨
+export const getItem = (params) => API.get(`/items/${params.id}`);

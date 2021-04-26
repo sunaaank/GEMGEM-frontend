@@ -30,7 +30,6 @@ import Review from "../components/review.jsx";
 import { getItem } from "../common/api";
 
 const ItemPage = (props) => {
-  console.log("✨✨", props.f7route);
   const [itemData, setItemData] = useState([]);
   const [packageOption, setPackageOption] = useState("베이직");
   const [rentDate, setRentDate] = useState({ startDate: "", endDate: "" });
@@ -71,14 +70,19 @@ const ItemPage = (props) => {
     return packagePrice + periodPrice;
   };
 
+  // const submitItemData = () {
+
+  // }
+
   useEffect(() => {
     const fetchItem = getItem(props.f7route.params).then((res) => {
       setItemData(res.data);
     });
     fetchItem;
   }, []);
+
   console.log("🎁", itemData);
-  const { startDate, endDate } = rentDate;
+
   return (
     <Page name="item">
       <Nav />
