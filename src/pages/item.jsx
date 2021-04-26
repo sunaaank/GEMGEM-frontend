@@ -22,6 +22,8 @@ import {
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import moment from "moment";
+import "moment/locale/ko";
 import Nav from "../components/nav.jsx";
 import ItemGuide from "../components/itemguide.jsx";
 import Review from "../components/review.jsx";
@@ -30,6 +32,45 @@ import { getItem } from "../common/api";
 const ItemPage = (props) => {
   console.log("✨✨", props.f7route);
   const [itemData, setItemData] = useState([]);
+  const [packageOption, setPackageOption] = useState("베이직");
+  const [rentDate, setRentDate] = useState({ startDate: "", endDate: "" });
+  console.log("🎄패키지옵션", packageOption);
+  console.log("🎄대여기간", rentDate);
+
+  const onPackageChange = (e) => {
+    const { value } = e.target;
+    if (e.target.checked) {
+      setPackageOption(value);
+    } else {
+      setPackageOption("베이직");
+    }
+  };
+
+  const onRentDateChange = (e) => {
+    const { name, value } = e.target;
+    setRentDate({ ...rentDate, [name]: value });
+  };
+
+  const getRentPeriod = () => {
+    const b = moment(rentDate.startDate);
+    const a = moment(rentDate.endDate);
+    var days = a.diff(b, "days");
+    if (!days || days <= 0) {
+      return "0";
+    } else {
+      return days;
+    }
+  };
+
+  const getTotalPrice = () => {
+    const periodPrice =
+      getRentPeriod() !== "0"
+        ? itemData.price * getRentPeriod()
+        : itemData.price;
+    const packagePrice = packageOption === "프리미엄" ? 3000 : 0;
+    return packagePrice + periodPrice;
+  };
+
   useEffect(() => {
     const fetchItem = getItem(props.f7route.params).then((res) => {
       setItemData(res.data);
@@ -37,6 +78,7 @@ const ItemPage = (props) => {
     fetchItem;
   }, []);
   console.log("🎁", itemData);
+  const { startDate, endDate } = rentDate;
   return (
     <Page name="item">
       <Nav />
@@ -81,10 +123,22 @@ const ItemPage = (props) => {
         </Block>
         <Block strong className="mx-7 my-10 ">
           <List>
-            <ListInput label="대여시작일" type="date">
+            <ListInput
+              label="대여시작일"
+              name="startDate"
+              type="date"
+              value={rentDate.startDate}
+              onChange={(e) => onRentDateChange(e)}
+            >
               <Icon icon="demo-list-icon" slot="media" />
             </ListInput>
-            <ListInput label="대여반납일" type="date">
+            <ListInput
+              label="대여반납일"
+              name="endDate"
+              type="date"
+              value={rentDate.endDate}
+              onChange={(e) => onRentDateChange(e)}
+            >
               <Icon icon="demo-list-icon" slot="media" />
             </ListInput>
           </List>
@@ -100,26 +154,34 @@ const ItemPage = (props) => {
                   radio
                   radioIcon="start"
                   title="베이직"
-                  value="basic"
+                  value="베이직"
                   name="demo-radio-start"
                   defaultChecked
+                  onChange={(e) => onPackageChange(e)}
                 ></ListItem>
                 <ListItem
                   className="col"
                   radio
                   radioIcon="start"
                   title="프리미엄"
-                  value="premium"
+                  value="프리미엄"
                   name="demo-radio-start"
+                  onChange={(e) => onPackageChange(e)}
                 ></ListItem>
                 {/*  </ul>*/}
               </List>
             </Col>
           </Row>
           <Row className="flex flex-row w-full mb-3 ">
-            <Col width="33">수량</Col>
+            <Col width="33">대여기간</Col>
             <Col width="66" className="flex flex-start">
-              <Stepper raised />
+              <p>{getRentPeriod()}일</p>
+            </Col>
+          </Row>
+          <Row className="flex flex-row w-full mb-3 ">
+            <Col width="33">총액</Col>
+            <Col width="66" className="flex flex-start">
+              <p>{getTotalPrice()}원</p>
             </Col>
           </Row>
         </Block>

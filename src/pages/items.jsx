@@ -42,8 +42,6 @@ const ItemsPage = (props) => {
     <Page name="items">
       <Nav />
       <div className="page-content">
-        <p className="flex justify-center">여기는 잼리스트 페이지 입니다.</p>
-        <Link href="/item">잼 상세 페이지 미리보기</Link>
         <ItemList itemsData={itemsData} goToItem={goToItem} />
 
         <List>
