@@ -17,40 +17,25 @@ import {
   Page,
   Row,
 } from "framework7-react";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Nav from "../components/nav.jsx";
 import ItemList from "../components/itemlist.jsx";
-import { configs } from "../common/config.js";
-import { getToken } from "../common/auth";
-import { getItems } from "../common/api";
 
-const ItemsPage = (props) => {
-  // router params 찾아보기
-  const goToItem = (id) => {
-    props.f7router.navigate(`/items/${id}/`);
-  };
-
-  let loggedIn = !!getToken().token;
-  const [itemsData, setItemsData] = useState([]);
-  // 아래 함수 async await로 바꿔주세요
-  useEffect(() => {
-    const fetchItems = getItems().then((res) => {
-      setItemsData(res.data);
-    });
-    fetchItems;
-  }, []);
-  console.log("💌Items", itemsData);
-
+const ItemsPage = () => {
   return (
     <Page name="items">
       <Nav />
-      <ItemList itemsData={itemsData} goToItem={goToItem} />
-
-      <List>
-        {[1, 2, 3].map((n) => (
-          <ListItem key={n} title={`Item ${n}`} />
-        ))}
-      </List>
+      <div className="page-content">
+        <p className="flex justify-center">여기는 잼리스트 페이지 입니다.</p>
+        <Link href="/item">잼 상세 페이지 미리보기</Link>
+        <ItemList />
+        <ItemList />
+        <List>
+          {[1, 2, 3].map((n) => (
+            <ListItem key={n} title={`Item ${n}`} />
+          ))}
+        </List>
+      </div>
     </Page>
   );
 };

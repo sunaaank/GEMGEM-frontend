@@ -36,7 +36,6 @@ const CartPage = () => {
   return (
     <Page name="cart">
       <Nav />
-      <a href="/order">주문 페이지 미리보기</a>
       <div className="p-3 flex flex-col items-center">
         <BlockTitle>장바구니</BlockTitle>
         <List>

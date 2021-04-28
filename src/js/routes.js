@@ -4,9 +4,8 @@ import SignUpPage from "../pages/users/registrations/new.jsx";
 import IntroPage from "../pages/intro.jsx";
 import ItemsPage from "../pages/items.jsx";
 import ItemPage from "../pages/item.jsx";
-import UserItemPage from "../pages/useritem.jsx";
+import WishlistPage from "../pages/wishlist.jsx";
 import CartPage from "../pages/cart.jsx";
-import OrderPage from "../pages/order.jsx";
 import MyPage from "../pages/mypage.jsx";
 import NotFoundPage from "../pages/404.jsx";
 
@@ -15,15 +14,11 @@ const routes = [
   { path: "/users/sign_in", component: LoginPage },
   { path: "/users/sign_up", component: SignUpPage },
   { path: "/about/", component: IntroPage },
-  {
-    path: "/items",
-    component: ItemsPage,
-    detailRoutes: [{ path: "/items/:id/", component: ItemPage }],
-  },
+  { path: "/items", component: ItemsPage },
+  { path: "/items/:id", component: ItemPage },
   { path: "/item", component: ItemPage },
-  { path: "/useritem", component: UserItemPage },
+  { path: "/wishlist", component: WishlistPage },
   { path: "/cart", component: CartPage },
-  { path: "/order", component: OrderPage },
   { path: "/mypage", component: MyPage },
   { path: "(.*)", component: NotFoundPage },
 ];
