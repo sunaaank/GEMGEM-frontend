@@ -24,6 +24,7 @@ export const refresh = () =>
     return res.data;
   });
 
+// User
 export const login = (params) =>
   PlainAPI.post("/login", params).then((res) => {
     saveToken(res.data);
@@ -39,9 +40,18 @@ export const logout = (_) =>
     destroyToken();
   });
 
-export const getItems = (params) =>
-  API.get("/items", params).then((res) => {
-    return res;
-  });
-// 아래 코드 then 안써도 됨
-export const getItem = (params) => API.get(`/items/${params.id}`);
+// Item
+export const getItems = () => API.get("/items");
+export const getItem = (params) => API.get(`/items/${params}`);
+
+// Cart
+export const createCart = (params) =>
+  API.patch(`/line_items/${params.item_id}`, params);
+export const updateCart = (params) => API.patch(`/line_items/${params}`);
+export const getCart = () => API.get(`/line_items`);
+export const deleteCart = (params) => API.delete(`/line_items/${params}`);
+
+// Order
+export const getOrder = () => API.get(`/orders`);
+export const createOrder = (params) => API.post(`/order/${params}`);
+export const updateOrder = (params) => API.patch(`/order/${params}`);

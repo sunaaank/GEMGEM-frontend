@@ -15,12 +15,14 @@ import {
 import React from "react";
 import Nav from "../components/nav.jsx";
 import { logout } from "../common/api";
-import { login } from "../common/api";
-import { signup } from "../common/api";
 import { getToken } from "../common/auth";
 
 const MyPage = () => {
   let loggedIn = !!getToken().token;
+  const handleLogout = async () => {
+    await logout();
+    location.replace("/");
+  };
 
   return (
     <Page name="mypage">
@@ -35,19 +37,20 @@ const MyPage = () => {
             panelClose
           ></ListItem>
         </List>
+
         <List>
-          <ListItem
-            title="로그인"
-            link="/users/sign_in"
-            icon="las la-question"
-            panelClose
-          ></ListItem>
-        </List>
-        <List>
-          {loggedIn && (
+          {loggedIn ? (
             <ListItem
               title="로그아웃"
               link="#"
+              icon="las la-question"
+              panelClose
+              onClick={handleLogout}
+            ></ListItem>
+          ) : (
+            <ListItem
+              title="로그인"
+              link="/users/sign_in"
               icon="las la-question"
               panelClose
             ></ListItem>

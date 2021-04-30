@@ -16,7 +16,14 @@ const ItemsList = ({ itemsData, goToItem }) => {
     <>
       <BlockTitle className="pt-10 font-bold">카테고리 1</BlockTitle>
       <Block>
-        <Swiper navigation speed={500} slidesPerView={2.3} spaceBetween={20}>
+        <Swiper
+          navigation
+          speed={500}
+          slidesPerView={2.3}
+          spaceBetween={20}
+          observer
+          observeParents
+        >
           {itemsData.map((item, index) => (
             <SwiperSlide key={index}>
               <img src={item.image_url} onClick={() => goToItem(item.id)} />
