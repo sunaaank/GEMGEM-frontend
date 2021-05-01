@@ -15,6 +15,7 @@ import {
 import React from "react";
 import Nav from "../components/nav.jsx";
 import { getToken } from "../common/auth";
+import AskLogin from "../components/asklogin.jsx";
 
 const UserItemPage = () => {
   let loggedIn = !!getToken().token;
@@ -27,16 +28,6 @@ const UserItemPage = () => {
           <List>
             <ul className="ul">
               <div className="flex flex-col">
-                {/* </div>{listItemData.map((item, index) => (
-                <ListItem
-                checkbox
-                name="demo-checkbox"
-                value={`Product${index}`}
-                checked={products.indexOf(`Product${index}`) >= 0}
-                onChange={(e) => onProductChange(e)}
-              >
-              <img className="resize" alt="상품이미지" src={item.image_url} />}*/}
-
                 <ListItem checkbox name="demo-checkbox" value="Product1">
                   <div>
                     <Link href="#">
@@ -60,21 +51,7 @@ const UserItemPage = () => {
             </ul>
           </List>
         ) : (
-          <List>
-            <ListItem
-              title="회원가입"
-              link="/users/sign_up"
-              icon="las la-question"
-              panelClose
-            />
-
-            <ListItem
-              title="로그인"
-              link="/users/sign_in"
-              icon="las la-question"
-              panelClose
-            />
-          </List>
+          <AskLogin />
         )}
       </div>
     </Page>

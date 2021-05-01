@@ -21,6 +21,8 @@ import {
   packageOptionState,
   rentDateState,
   itemTotalPriceState,
+  alreadyHasItemState,
+  cartDataState,
 } from "../../common/recoil.js";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import moment from "moment";
@@ -41,7 +43,10 @@ const ItemPage = (props) => {
   );
   const [rentDate, setRentDate] = useRecoilState(rentDateState);
   const [alreadyHasCart, setAlreadyHasCart] = useState(false);
-  const [alreadyHasItem, setAlreadyHasItem] = useState(false);
+  const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
+    alreadyHasItemState
+  );
+  const [cartData, setCartData] = useRecoilState(cartDataState);
 
   console.log("🎄패키지옵션", packageOption);
   console.log("🎄대여기간", rentDate);
@@ -78,6 +83,7 @@ const ItemPage = (props) => {
   };
 
   //  ✅ 대여기간 계산하기
+  // 🚩🚩🚩변수명 바꾸기
   const getRentPeriod = () => {
     const b = moment(rentDate.startDate);
     const a = moment(rentDate.endDate);
@@ -103,6 +109,8 @@ const ItemPage = (props) => {
 
   //  ✅ 장바구니 버튼 클릭 시 로그인 상태 체크하기
   //  🚩🚩🚩 로그인/회원가입 버튼 있는 모달 띠우기 "/users/sign_in",  "/users/sign_up"
+  // onchange / onclick add cart
+  // goToCart 함수가 따로 존재할 필요 없음 => 에어비엔비 네이밍 컨벤션
   const goToCart = () => {
     {
       loggedIn ? submitItemData() : f7.dialog.alert("로그인을 해주세요");
@@ -136,11 +144,6 @@ const ItemPage = (props) => {
       {/* Page content */}
       <PageContent className="p-0 m-0">
         <Swiper>
-          {/* {itemData.map((item, index) => (
-            <SwiperSlide>
-              <img className="resize" alt="상품이미지" src={item.image_url} />
-            </SwiperSlide>
-          ))}*/}
           <SwiperSlide>
             <img className="resize" alt="상품이미지" src={itemData.image_url} />
           </SwiperSlide>

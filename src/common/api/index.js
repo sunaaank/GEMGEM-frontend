@@ -49,7 +49,8 @@ export const createCart = (params) =>
   API.patch(`/line_items/${params.item_id}`, params);
 export const updateCart = (params) => API.patch(`/line_items/${params}`);
 export const getCart = () => API.get(`/line_items`);
-export const deleteCart = (params) => API.delete(`/line_items/${params}`);
+export const deleteCart = (params) =>
+  API.delete(`/line_items/${params.item_id}`, params);
 
 // Order
 export const getOrder = () => API.get(`/orders`);
