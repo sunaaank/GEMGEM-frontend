@@ -25,6 +25,11 @@ export const alreadyHasItemState = atom({
   default: false,
 });
 
+export const alreadyHasCartState = atom({
+  key: "alreadyHasCartState",
+  default: false,
+});
+
 // export const cartSelector = selector({
 //   key: "cartSelector",
 //   get:

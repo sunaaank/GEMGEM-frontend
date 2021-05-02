@@ -22,7 +22,7 @@ import Nav from "../../components/nav.jsx";
 import ItemList from "../../components/itemlist.jsx";
 import { configs } from "../../common/config.js";
 import { getToken } from "../../common/auth";
-import { getItems } from "../../common/api";
+import { getItems, getCategories } from "../../common/api";
 
 const ItemsPage = (props) => {
   // router params 찾아보기
@@ -32,6 +32,7 @@ const ItemsPage = (props) => {
 
   let loggedIn = !!getToken().token;
   const [itemsData, setItemsData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -45,16 +46,34 @@ const ItemsPage = (props) => {
   }, []);
   console.log("💌Items", itemsData);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      let res = await getCategories();
+      if (!!res.data) {
+        setCategoriesData(res.data);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const filterItemsByCategory = (id) => {
+    return itemsData.filter((item) => item.sub_category.category_id === id);
+  };
+
   return (
     <Page name="items">
       <Nav />
-      <ItemList itemsData={itemsData} goToItem={goToItem} />
-
-      <List>
-        {[1, 2, 3].map((n) => (
-          <ListItem key={n} title={`Item ${n}`} />
-        ))}
-      </List>
+      <ItemList
+        itemsData={filterItemsByCategory(1)}
+        goToItem={goToItem}
+        category={categoriesData[0]}
+      />
+      <ItemList
+        itemsData={filterItemsByCategory(16)}
+        goToItem={goToItem}
+        category={categoriesData[10]}
+      />
     </Page>
   );
 };

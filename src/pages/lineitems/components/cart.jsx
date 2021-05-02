@@ -3,6 +3,7 @@ import {
   BlockTitle,
   Button,
   Col,
+  f7,
   Link,
   List,
   ListItem,
@@ -61,11 +62,11 @@ const Cart = ({ cartData, onClickDeleteCart, onClickOrder }) => {
         large
         raised
         fill
-        className="p-3 w-full"
+        className="w-full fixed bottom-10 left-0"
         href="/order"
         onClick={() => onClickOrder()}
       >
-        주문하기
+        totalprice 주문하기
       </Button>
     </div>
   );

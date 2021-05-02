@@ -40,6 +40,9 @@ export const logout = (_) =>
     destroyToken();
   });
 
+// Category
+export const getCategories = () => API.get("/categories");
+
 // Item
 export const getItems = () => API.get("/items");
 export const getItem = (params) => API.get(`/items/${params}`);

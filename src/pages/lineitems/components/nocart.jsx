@@ -6,7 +6,7 @@ const NoCart = () => {
     <div>
       <i className="f7-icons">cart_badge_plus</i>
       <p>장바구니가 비어있어요</p>
-      <Button large raised fill className="p-3 w-full" href="/item">
+      <Button large raised fill className="p-3 w-full" href="/items">
         쇼핑하기
       </Button>
     </div>

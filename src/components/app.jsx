@@ -28,7 +28,7 @@ const MyApp = () => {
   const device = getDevice();
   // Framework7 Parameters
   const f7params = {
-    name: "Practice", // App name
+    name: "GEMGEM", // App name
     theme: "ios", // Automatic theme detection
     id: "com.insomenia.practice", // App bundle ID
     // App store
@@ -40,6 +40,16 @@ const MyApp = () => {
       iosDynamicNavbar: getDevice().ios,
     },
   };
+  // const onClickPage = (e) => {
+  //   console.log(f7.views.main.router.currentRoute);
+  // };
+
+  // const cartView = (e) => {
+  //   // f7.view.router.refreshPage({
+  //   //   url: "/cart",
+  //   // });
+  //   console.log(f7.views.main.router);
+  // };
 
   return (
     <RecoilRoot>

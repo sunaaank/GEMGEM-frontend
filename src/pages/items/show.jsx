@@ -21,6 +21,7 @@ import {
   packageOptionState,
   rentDateState,
   itemTotalPriceState,
+  alreadyHasCartState,
   alreadyHasItemState,
   cartDataState,
 } from "../../common/recoil.js";
@@ -42,7 +43,9 @@ const ItemPage = (props) => {
     itemTotalPriceState
   );
   const [rentDate, setRentDate] = useRecoilState(rentDateState);
-  const [alreadyHasCart, setAlreadyHasCart] = useState(false);
+  const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
+    alreadyHasCartState
+  );
   const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
     alreadyHasItemState
   );

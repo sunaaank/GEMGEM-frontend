@@ -1,7 +1,11 @@
 import { BlockTitle, Page, f7 } from "framework7-react";
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { cartDataState, alreadyHasItemState } from "../../common/recoil.js";
+import {
+  cartDataState,
+  alreadyHasCartState,
+  alreadyHasItemState,
+} from "../../common/recoil.js";
 import Nav from "../../components/nav.jsx";
 import Cart from "../lineitems/components/cart.jsx";
 import NoCart from "../lineitems/components/nocart.jsx";
@@ -16,6 +20,9 @@ const CartPage = () => {
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [selectedCartData, setSelectedCartData] = useState([]);
   const [cartTotalPrice, setCartTotalPrice] = useState();
+  const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
+    alreadyHasCartState
+  );
   const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
     alreadyHasItemState
   );
@@ -83,12 +90,15 @@ const CartPage = () => {
         <BlockTitle>장바구니</BlockTitle>
         {loggedIn ? (
           <div>
-            <Cart
-              cartData={cartData}
-              onClickDeleteCart={onClickDeleteCart}
-              onClickOrder={onClickOrder}
-            />
-            <NoCart />
+            {alreadyHasCart ? (
+              <Cart
+                cartData={cartData}
+                onClickDeleteCart={onClickDeleteCart}
+                onClickOrder={onClickOrder}
+              />
+            ) : (
+              <NoCart />
+            )}
           </div>
         ) : (
           <AskLogin />

@@ -22,10 +22,8 @@ import React from "react";
 
 const Nav = () => {
   return (
-    <Navbar className="no-hairline">
-      <NavLeft>
-        <Link back>Back</Link>
-      </NavLeft>
+    <Navbar className="no-hairline" backLink="Back">
+      <NavLeft></NavLeft>
       <NavRight>
         <Link
           searchbarEnable=".searchbar-demo"

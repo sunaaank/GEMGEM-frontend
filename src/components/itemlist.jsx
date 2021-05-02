@@ -11,10 +11,10 @@ import {
 } from "framework7-react";
 import React from "react";
 
-const ItemsList = ({ itemsData, goToItem }) => {
+const ItemsList = ({ itemsData, goToItem, category }) => {
   return (
     <>
-      <BlockTitle className="pt-10 font-bold">카테고리 1</BlockTitle>
+      <BlockTitle className="pt-10 font-bold">{category.name}</BlockTitle>
       <Block>
         <Swiper
           navigation
