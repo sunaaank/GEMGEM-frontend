@@ -15,9 +15,19 @@ export const itemTotalPriceState = atom({
   default: 0,
 });
 
+export const itemsDataState = atom({
+  key: "itemsDataState",
+  default: [],
+});
+
 export const cartDataState = atom({
   key: "cartDataState",
   default: [],
+});
+
+export const cartTotalPriceState = atom({
+  key: "cartTotalPriceState",
+  default: 0,
 });
 
 export const alreadyHasItemState = atom({

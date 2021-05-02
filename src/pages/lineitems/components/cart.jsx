@@ -15,9 +15,16 @@ import {
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { cartDataState } from "../../../common/recoil.js";
 
-const Cart = ({ cartData, onClickDeleteCart, onClickOrder }) => {
+const Cart = ({
+  cartData,
+  cartTotalPrice,
+  onClickDeleteCart,
+  onClickOrder,
+}) => {
+  const addShippingTotalPrice =
+    cartTotalPrice >= 30000 ? cartTotalPrice : cartTotalPrice + 3000;
+
   return (
     <div>
       <List mediaList>
@@ -26,7 +33,6 @@ const Cart = ({ cartData, onClickDeleteCart, onClickOrder }) => {
             {cartData.map((item, index) => (
               <div key={index}>
                 <ListItem
-                  link="#"
                   title={item.item.name}
                   after={
                     <i
@@ -50,11 +56,11 @@ const Cart = ({ cartData, onClickDeleteCart, onClickOrder }) => {
       <div className="p-3 text-right">
         <Row>
           <Col width="66">배송비</Col>
-          <Col width="33">0원</Col>
+          <Col width="33">{cartTotalPrice >= 30000 ? 0 : 3000} 원</Col>
         </Row>
         <Row>
           <Col width="66">총 주문금액</Col>
-          <Col width="33">totalprice</Col>
+          <Col width="33">{addShippingTotalPrice}원</Col>
         </Row>
       </div>
 
@@ -66,7 +72,7 @@ const Cart = ({ cartData, onClickDeleteCart, onClickOrder }) => {
         href="/order"
         onClick={() => onClickOrder()}
       >
-        totalprice 주문하기
+        {addShippingTotalPrice}원 주문하기
       </Button>
     </div>
   );

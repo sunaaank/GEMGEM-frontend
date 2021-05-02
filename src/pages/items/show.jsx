@@ -13,6 +13,7 @@ import {
   Swiper,
   SwiperSlide,
   Page,
+  Navbar,
   Row,
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
@@ -28,7 +29,6 @@ import {
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import moment from "moment";
 import "moment/locale/ko";
-import Nav from "../../components/nav.jsx";
 import ItemGuide from "./components/itemguide.jsx";
 import Review from "../../components/review.jsx";
 import { getItem } from "../../common/api";
@@ -65,7 +65,7 @@ const ItemPage = (props) => {
     };
 
     fetchItem();
-  }, []);
+  }, [alreadyHasItem, cartData]);
 
   console.log("🎁개별 아이템데이터", itemData);
   console.log("🚛user has cart?", alreadyHasCart);
@@ -88,9 +88,9 @@ const ItemPage = (props) => {
   //  ✅ 대여기간 계산하기
   // 🚩🚩🚩변수명 바꾸기
   const getRentPeriod = () => {
-    const b = moment(rentDate.startDate);
-    const a = moment(rentDate.endDate);
-    var days = a.diff(b, "days");
+    const startDay = moment(rentDate.startDate);
+    const endDay = moment(rentDate.endDate);
+    var days = endDay.diff(startDay, "days");
     if (!days || days <= 0) {
       return "0";
     } else {
@@ -124,6 +124,8 @@ const ItemPage = (props) => {
   const submitItemData = async () => {
     if (alreadyHasItem) {
       return f7.dialog.alert("이미 상품이 장바구니에 담겨있습니다");
+    } else if (!rentDate.startDate || !rentDate.endDate) {
+      return f7.dialog.alert("대여기간을 선택해주세요");
     } else {
       await createCart({
         item_id: props.f7route.params.id,
@@ -143,8 +145,8 @@ const ItemPage = (props) => {
 
   return (
     <Page name="item">
-      <Nav />
-      {/* Page content */}
+      <Navbar title={itemData.name} className="no-hairline" backLink="Back" />
+
       <PageContent className="p-0 m-0">
         <Swiper>
           <SwiperSlide>
@@ -156,6 +158,11 @@ const ItemPage = (props) => {
         <BlockTitle className="flex justify-center items-center my-4 font-semibold text-3xl">
           {itemData.name}
         </BlockTitle>
+
+        <i className="f7-icons" value={itemData.id}>
+          heart
+        </i>
+
         <Block className="mx-7 my-10">
           <List>
             <ListItem className="border-red-500 border-solid border-2 rounded-xl">
@@ -183,6 +190,7 @@ const ItemPage = (props) => {
             <ListInput
               label="대여시작일"
               name="startDate"
+              min={moment().format("YYYY-MM-DD")}
               type="date"
               value={rentDate.startDate}
               onChange={(e) => onRentDateChange(e)}
@@ -192,6 +200,7 @@ const ItemPage = (props) => {
             <ListInput
               label="대여반납일"
               name="endDate"
+              min={rentDate.startDate}
               type="date"
               value={rentDate.endDate}
               onChange={(e) => onRentDateChange(e)}

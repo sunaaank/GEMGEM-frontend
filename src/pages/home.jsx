@@ -12,23 +12,69 @@ import {
   Page,
   Row,
 } from "framework7-react";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import {
+  cartDataState,
+  cartTotalPriceState,
+  alreadyHasCartState,
+  alreadyHasItemState,
+} from "../common/recoil.js";
 import Nav from "../components/nav.jsx";
 import IntroPage from "../pages/intro.jsx";
+import { getToken } from "../common/auth";
+import { getCart } from "../common/api";
 
 const HomePage = () => {
+  let loggedIn = !!getToken().token;
+  const [cartData, setCartData] = useRecoilState(cartDataState);
+  const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
+    cartTotalPriceState
+  );
+  const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
+    alreadyHasCartState
+  );
+  const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
+    alreadyHasItemState
+  );
+
+  {
+    loggedIn &&
+      useEffect(() => {
+        const fetchCart = async () => {
+          let res = await getCart();
+          if (!!res.data) {
+            setCartData(res.data);
+            console.log("🎁getCart", cartData);
+          }
+        };
+
+        fetchCart();
+      }, [alreadyHasItem]);
+
+    useEffect(() => {
+      const sumCartPrice = () => {
+        let cartPrice = [0, 0];
+        cartData && cartData.map((item) => cartPrice.push(item.total));
+        const totalPrice = cartPrice.reduce((item1, item2) => item1 + item2);
+        setCartTotalPrice(totalPrice);
+      };
+
+      sumCartPrice();
+    }, [cartData]);
+  }
+
   return (
     <>
-      <Nav />
+      <Navbar title="GEMGEM" noHairline sliding={false} />
       <Page name="home">
-        <div className="page-content p-0 m-0">
-          <IntroPage />
-          <div className="block my-10">
-            <div className="flex flex-col items-center">
-              <p>💎GEMGEM에 오신 것을 환영합니다💎</p>
-              <p>여기는 메인 페이지 입니다.</p>
-              <p>파이팅파이팅</p>
-            </div>
+        <div className="p-0 m-0">
+          <img
+            src={`https://www.onespan.com/sites/default/files/blog/images/icon.ruby_.png`}
+          />
+
+          <div className="my-10">
+            <div className="flex flex-col items-center"></div>
           </div>
           <BlockTitle className="mx-3">✨GEMGEM'S CATEGORY</BlockTitle>
           <List mediaList inset>

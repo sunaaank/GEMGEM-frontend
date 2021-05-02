@@ -69,6 +69,7 @@ const MyApp = () => {
               tabLink="#view-carts"
               icon="las la-shopping-basket"
               text="CART"
+              noToolbar
             />
             <Link
               tabLink="#view-users"

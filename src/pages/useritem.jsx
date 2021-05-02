@@ -21,9 +21,8 @@ const UserItemPage = () => {
   let loggedIn = !!getToken().token;
   return (
     <Page name="useritem">
-      <Nav />
+      <Navbar title="위시리스트" className="no-hairline" />
       <div className="p-3 flex flex-col items-center">
-        <BlockTitle>위시리스트</BlockTitle>
         {loggedIn ? (
           <List>
             <ul className="ul">

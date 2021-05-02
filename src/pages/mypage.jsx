@@ -1,34 +1,36 @@
 import {
   Block,
   BlockTitle,
-  Button,
-  Col,
-  Link,
   List,
   ListItem,
   Navbar,
-  NavLeft,
-  NavTitle,
+  Swiper,
+  SwiperSlide,
   Page,
-  Row,
 } from "framework7-react";
 import React from "react";
-import Nav from "../components/nav.jsx";
+import { useRecoilState } from "recoil";
+import { itemsDataState } from "../common/recoil.js";
 import { logout } from "../common/api";
 import { getToken } from "../common/auth";
+import ItemsSwiper from "../components/itemsSwiper.jsx";
 
 const MyPage = () => {
+  const [itemsData, setItemsData] = useRecoilState(itemsDataState);
   let loggedIn = !!getToken().token;
   const handleLogout = async () => {
     await logout();
     location.replace("/");
   };
 
+  const onClickItem = (id) => {
+    props.f7router.navigate(`/items/${id}/`);
+  };
+
   return (
     <Page name="mypage">
-      <Nav />
+      <Navbar title="마이페이지" noHairline sliding={false} />
       <div className="p-3 flex flex-col items-center">
-        <p>여기는 마이페이지 입니다.</p>
         <List>
           <ListItem
             title="회원가입"
@@ -56,6 +58,9 @@ const MyPage = () => {
             ></ListItem>
           )}
         </List>
+      </div>
+      <div className="ml-4">
+        <ItemsSwiper itemsData={itemsData} onClickItem={onClickItem} />
       </div>
     </Page>
   );
