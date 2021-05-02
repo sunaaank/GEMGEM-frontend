@@ -28,12 +28,15 @@ import {
 import React, { useState, useEffect } from "react";
 import { updateOrder } from "../common/api";
 import { useRecoilState } from "recoil";
-import { cartDataState } from "../common/recoil.js";
+import { cartDataState, cartTotalPriceState } from "../common/recoil.js";
 import { toast, sleep } from "../js/utils.js";
 
 const OrderPage = () => {
   const [selected, setSelected] = useState("saved_address");
   const [cartData, setCartData] = useRecoilState(cartDataState);
+  const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
+    cartTotalPriceState
+  );
 
   const onClickPayment = async () => {
     await updateOrder({
@@ -42,7 +45,7 @@ const OrderPage = () => {
       zipcode: rentDate.startDate,
       address1: rentDate.endDate,
       address2: packageOption,
-      // total: totalprice,
+      total: cartTotalPrice,
       order_status: "prepaid",
     });
 
@@ -53,6 +56,11 @@ const OrderPage = () => {
   return (
     <Page name="order">
       <Navbar title="주문 정보" noHairline sliding={false} backLink="Back" />
+      <BlockTitle className="mx-7 my-4">주문상품 정보</BlockTitle>
+      <Block>
+        <p>🚩🚩🚩장바구니에서 구매확정 리스트를 전달받으세요</p>
+      </Block>
+      <BlockTitle className="mx-7 my-4">배송지 정보</BlockTitle>
       <Block className="mx-7 my-10">
         <List menuList>
           <ListItem
@@ -82,7 +90,9 @@ const OrderPage = () => {
             />
           </ListItem>
         </List>
-
+      </Block>
+      <BlockTitle className="mx-7 my-4">고객 정보</BlockTitle>
+      <Block className="mx-7 my-10">
         <List inlineLabels noHairlines>
           <ListInput name="배송지명" label="배송지명" type="text" clearButton>
             <Icon icon="demo-list-icon" slot="media" />
@@ -98,9 +108,36 @@ const OrderPage = () => {
           </ListInput>
         </List>
       </Block>
-      <BlockTitle className="mx-7 my-4">주문상품 정보</BlockTitle>
-      <Block>
-        <p>🚩🚩🚩장바구니에서 구매확정 리스트를 전달받으세요</p>
+
+      <BlockTitle className="mx-7 my-4">결제 수단</BlockTitle>
+      <Block className="mx-7 my-10">
+        <List>
+          <ListItem
+            title="신용카드"
+            selected={selected === "new_address"}
+            onClick={() => setSelected("new_address")}
+          ></ListItem>
+          <ListItem
+            title="휴대폰 결제"
+            selected={selected === "new_address"}
+            onClick={() => setSelected("new_address")}
+          ></ListItem>
+          <ListItem
+            title="무통장입금"
+            selected={selected === "new_address"}
+            onClick={() => setSelected("new_address")}
+          ></ListItem>
+        </List>
+        <Button
+          large
+          raised
+          fill
+          href="#"
+          className="mb-10"
+          onClick={() => onClickPayment()}
+        >
+          결제하기
+        </Button>
       </Block>
     </Page>
   );
