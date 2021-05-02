@@ -40,16 +40,6 @@ const MyApp = () => {
       iosDynamicNavbar: getDevice().ios,
     },
   };
-  // const onClickPage = (e) => {
-  //   console.log(f7.views.main.router.currentRoute);
-  // };
-
-  // const cartView = (e) => {
-  //   // f7.view.router.refreshPage({
-  //   //   url: "/cart",
-  //   // });
-  //   console.log(f7.views.main.router);
-  // };
 
   return (
     <RecoilRoot>

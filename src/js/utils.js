@@ -1,13 +1,19 @@
+import { f7, theme } from "framework7-react";
+
 export const toast = (text) => {
-  let toastBox;
-  if (!toastBox) {
-    toastBox = f7.toast.create({
+  let toastIcon;
+  if (!toastIcon) {
+    toastIcon = f7.toast.create({
+      icon:
+        theme.ios || theme.aurora
+          ? '<i class="f7-icons">checkmark_circle_fill</i>'
+          : '<i class="material-icons">CheckCircle</i>',
       text: text,
       position: "center",
-      closeTimeout: 400,
+      closeTimeout: 1400,
     });
   }
-  toastBox.open();
+  toastIcon.open();
 };
 
 export const sleep = (ms) => {

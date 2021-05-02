@@ -12,12 +12,12 @@ import NoCart from "../lineitems/components/nocart.jsx";
 import AskLogin from "../../components/asklogin.jsx";
 import { getToken } from "../../common/auth";
 import { deleteCart, updateOrder } from "../../common/api";
+import { toast, sleep } from "../../js/utils.js";
 import { date } from "yup";
 
 const CartPage = () => {
   let loggedIn = !!getToken().token;
   const [cartData, setCartData] = useRecoilState(cartDataState);
-  const [selectedCartData, setSelectedCartData] = useState([]);
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
@@ -28,14 +28,6 @@ const CartPage = () => {
     alreadyHasItemState
   );
 
-  // const initialCart = () => {
-  //   const cartItem = [];
-  //   for (let i = 0; i < cartData.length; i++) {
-  //     cartItem.push(`Product${i + 1}`);
-  //   }
-  //   setSelectedCartData(cartItem);
-  // };
-
   const onClickDeleteCart = (e) => {
     console.log("item_id를 잡아봅시다", e.target.getAttribute("value"));
     const deleteCartItem = async () => {
@@ -45,7 +37,7 @@ const CartPage = () => {
       if (!!res.data) {
         setCartData(res.data);
 
-        f7.dialog.alert("상품이 삭제되었습니다");
+        toast("상품이 삭제되었습니다");
       }
     };
 
@@ -60,7 +52,7 @@ const CartPage = () => {
       order_status: "prepaid",
     });
     // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
-    f7.dialog.alert("주문서 작성 중입니다. 잠시만 기다려주세요.");
+    f7.dialog.preloader("주문서 작성 중입니다. 잠시만 기다려주세요.");
     console.log("주문하기 버튼 클릭");
   };
 

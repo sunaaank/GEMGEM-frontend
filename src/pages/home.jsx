@@ -57,7 +57,9 @@ const HomePage = () => {
         let cartPrice = [0, 0];
         cartData && cartData.map((item) => cartPrice.push(item.total));
         const totalPrice = cartPrice.reduce((item1, item2) => item1 + item2);
-        setCartTotalPrice(totalPrice);
+        const addShippingTotalPrice =
+          totalPrice >= 30000 ? totalPrice : totalPrice + 3000;
+        setCartTotalPrice(addShippingTotalPrice);
       };
 
       sumCartPrice();

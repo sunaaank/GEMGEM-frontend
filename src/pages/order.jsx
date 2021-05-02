@@ -29,6 +29,7 @@ import React, { useState, useEffect } from "react";
 import { updateOrder } from "../common/api";
 import { useRecoilState } from "recoil";
 import { cartDataState } from "../common/recoil.js";
+import { toast, sleep } from "../js/utils.js";
 
 const OrderPage = () => {
   const [selected, setSelected] = useState("saved_address");
@@ -46,7 +47,7 @@ const OrderPage = () => {
     });
 
     // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
-    f7.dialog.alert("주문이 완료되었습니다");
+    toast("주문이 완료되었습니다");
   };
 
   return (

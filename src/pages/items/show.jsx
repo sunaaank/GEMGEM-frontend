@@ -34,6 +34,7 @@ import Review from "../../components/review.jsx";
 import { getItem } from "../../common/api";
 import { createCart } from "../../common/api";
 import { getToken } from "../../common/auth";
+import { toast, sleep } from "../../js/utils.js";
 
 const ItemPage = (props) => {
   let loggedIn = !!getToken().token;
@@ -116,16 +117,16 @@ const ItemPage = (props) => {
   // goToCart 함수가 따로 존재할 필요 없음 => 에어비엔비 네이밍 컨벤션
   const goToCart = () => {
     {
-      loggedIn ? submitItemData() : f7.dialog.alert("로그인을 해주세요");
+      loggedIn ? submitItemData() : toast("로그인을 해주세요");
     }
   };
 
   //  ✅ 장바구니 버튼 클릭 시 데이터 보내기
   const submitItemData = async () => {
     if (alreadyHasItem) {
-      return f7.dialog.alert("이미 상품이 장바구니에 담겨있습니다");
+      return toast("해당 상품은 <br/> 장바구니에 담겨있습니다");
     } else if (!rentDate.startDate || !rentDate.endDate) {
-      return f7.dialog.alert("대여기간을 선택해주세요");
+      return toast("대여기간을 선택해주세요");
     } else {
       await createCart({
         item_id: props.f7route.params.id,
@@ -137,7 +138,7 @@ const ItemPage = (props) => {
       });
 
       // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
-      f7.dialog.alert("장바구니에 상품이 담겼습니다");
+      toast("장바구니에 상품이 담겼습니다");
       setAlreadyHasItem(true);
       setRentDate({ startDate: "", endDate: "" });
     }

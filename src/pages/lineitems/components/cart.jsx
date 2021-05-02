@@ -22,9 +22,6 @@ const Cart = ({
   onClickDeleteCart,
   onClickOrder,
 }) => {
-  const addShippingTotalPrice =
-    cartTotalPrice >= 30000 ? cartTotalPrice : cartTotalPrice + 3000;
-
   return (
     <div>
       <List mediaList>
@@ -56,11 +53,11 @@ const Cart = ({
       <div className="p-3 text-right">
         <Row>
           <Col width="66">배송비</Col>
-          <Col width="33">{cartTotalPrice >= 30000 ? 0 : 3000} 원</Col>
+          <Col width="33">{cartTotalPrice < 33000 ? 3000 : 0} 원</Col>
         </Row>
         <Row>
           <Col width="66">총 주문금액</Col>
-          <Col width="33">{addShippingTotalPrice}원</Col>
+          <Col width="33">{cartTotalPrice}원</Col>
         </Row>
       </div>
 
@@ -72,7 +69,7 @@ const Cart = ({
         href="/order"
         onClick={() => onClickOrder()}
       >
-        {addShippingTotalPrice}원 주문하기
+        {cartTotalPrice}원 주문하기
       </Button>
     </div>
   );
