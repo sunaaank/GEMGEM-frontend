@@ -21,6 +21,7 @@ import { useRecoilState } from "recoil";
 import {
   packageOptionState,
   rentDateState,
+  rentPeriodState,
   itemTotalPriceState,
   alreadyHasCartState,
   alreadyHasItemState,
@@ -44,6 +45,7 @@ const ItemPage = (props) => {
     itemTotalPriceState
   );
   const [rentDate, setRentDate] = useRecoilState(rentDateState);
+  const [rentPeriod, setRentPeriod] = useRecoilState(rentPeriodState);
   const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
     alreadyHasCartState
   );
@@ -88,33 +90,34 @@ const ItemPage = (props) => {
 
   //  ✅ 대여기간 계산하기
   // 🚩🚩🚩변수명 바꾸기
-  const getRentPeriod = () => {
-    const startDay = moment(rentDate.startDate);
-    const endDay = moment(rentDate.endDate);
-    var days = endDay.diff(startDay, "days");
-    if (!days || days <= 0) {
-      return "0";
-    } else {
-      return days;
-    }
-  };
+  useEffect(() => {
+    const getRentPeriod = () => {
+      const startDay = moment(rentDate.startDate);
+      const endDay = moment(rentDate.endDate);
+      var days = endDay.diff(startDay, "days");
+      if (!days || days <= 0) {
+        setRentPeriod("0");
+        return "0";
+      } else {
+        setRentPeriod(days);
+        return days;
+      }
+    };
+    getRentPeriod();
+  }, [rentDate]);
 
   //  ✅ 총 금액 계산하기
-  const getTotalPrice = () => {
-    const periodPrice =
-      getRentPeriod() !== "0"
-        ? itemData.price * getRentPeriod()
-        : itemData.price;
-    const packagePrice = packageOption === "프리미엄" ? 3000 : 0;
-    const totalPrice = packagePrice + periodPrice;
-    setItemTotalPrice(totalPrice);
-    return totalPrice;
-  };
-
-  //  ✅ 장바구니 버튼 클릭 시 로그인 상태 체크하기
-  //  🚩🚩🚩 로그인/회원가입 버튼 있는 모달 띠우기 "/users/sign_in",  "/users/sign_up"
-  // onchange / onclick add cart
-  // goToCart 함수가 따로 존재할 필요 없음 => 에어비엔비 네이밍 컨벤션
+  useEffect(() => {
+    const getTotalPrice = () => {
+      const periodPrice =
+        rentPeriod !== "0" ? itemData.price * rentPeriod : itemData.price;
+      const packagePrice = packageOption === "프리미엄" ? 3000 : 0;
+      const totalPrice = packagePrice + periodPrice;
+      setItemTotalPrice(totalPrice);
+      return totalPrice;
+    };
+    getTotalPrice();
+  }, [rentPeriod, packageOption]);
 
   //  ✅ 장바구니 버튼 클릭 시 데이터 보내기
   const onClickAddCart = async () => {
@@ -239,13 +242,13 @@ const ItemPage = (props) => {
           <Row className="flex flex-row w-full mb-3 ">
             <Col width="33">대여기간</Col>
             <Col width="66" className="flex flex-start">
-              <p>{getRentPeriod()}일</p>
+              <p>{rentPeriod}일</p>
             </Col>
           </Row>
           <Row className="flex flex-row w-full mb-3 ">
             <Col width="33">총액</Col>
             <Col width="66" className="flex flex-start">
-              <p>{getTotalPrice()}원</p>
+              <p>{itemTotalPrice}원</p>
             </Col>
           </Row>
         </Block>

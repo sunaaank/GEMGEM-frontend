@@ -19,18 +19,22 @@ import {
   cartTotalPriceState,
   alreadyHasCartState,
   alreadyHasItemState,
+  userDataState,
+  orderDataState,
 } from "../common/recoil.js";
 import Nav from "../components/nav.jsx";
 import IntroPage from "../pages/intro.jsx";
 import { getToken } from "../common/auth";
-import { getCart } from "../common/api";
+import { getCart, getUser } from "../common/api";
 
 const HomePage = () => {
   let loggedIn = !!getToken().token;
+  const [userData, setUserData] = useRecoilState(userDataState);
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
+  const [orderData, setOrderData] = useRecoilState(orderDataState);
   const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
     alreadyHasCartState
   );
@@ -40,6 +44,8 @@ const HomePage = () => {
 
   {
     loggedIn &&
+      // 유저 기본정보 받아오기
+
       useEffect(() => {
         const fetchCart = async () => {
           let res = await getCart();
@@ -51,6 +57,20 @@ const HomePage = () => {
 
         fetchCart();
       }, [alreadyHasItem, cartTotalPrice]);
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        if (loggedIn) {
+          let res = await getUser();
+          if (!!res.data) {
+            setUserData(res.data);
+          }
+          console.log("getUser", userData);
+        }
+      };
+
+      fetchUser();
+    }, [orderData]);
 
     useEffect(() => {
       const sumCartPrice = () => {

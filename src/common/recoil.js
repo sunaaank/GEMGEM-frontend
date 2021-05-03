@@ -1,5 +1,12 @@
 import { atom, selector } from "recoil";
 
+// User
+export const userDataState = atom({
+  key: "userDataState",
+  default: { name: "", phone: "", email: "" },
+});
+
+// Item
 export const packageOptionState = atom({
   key: "packageOptionState",
   default: "베이직",
@@ -10,9 +17,14 @@ export const rentDateState = atom({
   default: { startDate: "", endDate: "" },
 });
 
+export const rentPeriodState = atom({
+  key: "rentPeriodState",
+  default: "0",
+});
+
 export const itemTotalPriceState = atom({
   key: "itemTotalPriceState",
-  default: 0,
+  default: "0",
 });
 
 export const itemsDataState = atom({
@@ -20,6 +32,7 @@ export const itemsDataState = atom({
   default: [],
 });
 
+// Cart
 export const cartDataState = atom({
   key: "cartDataState",
   default: [],
@@ -40,6 +53,7 @@ export const alreadyHasCartState = atom({
   default: false,
 });
 
+//Order
 export const orderDataState = atom({
   key: "orderDataState",
   default: [],

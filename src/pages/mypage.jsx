@@ -47,7 +47,7 @@ const MyPage = () => {
               link="#"
               icon="las la-question"
               panelClose
-              onClick={handleLogout}
+              onClick={() => handleLogout()}
             ></ListItem>
           ) : (
             <ListItem
@@ -60,7 +60,7 @@ const MyPage = () => {
         </List>
       </div>
       <div className="ml-4">
-        <ItemsSwiper itemsData={itemsData} onClickItem={onClickItem} />
+        <ItemsSwiper itemsData={itemsData} onClickItem={() => onClickItem()} />
       </div>
     </Page>
   );

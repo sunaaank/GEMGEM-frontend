@@ -39,6 +39,8 @@ export const logout = (_) =>
   API.delete("/logout").then((res) => {
     destroyToken();
   });
+// User
+export const getUser = () => API.get("/users");
 
 // Category
 export const getCategories = () => API.get("/categories");
@@ -59,3 +61,5 @@ export const deleteCart = (params) =>
 export const getOrder = () => API.get(`/order`);
 export const createOrder = (params) => API.post(`/order`, params);
 export const updateOrder = (params) => API.patch(`/order`, params);
+
+// 카트 오더 아이디값 받아오는 api

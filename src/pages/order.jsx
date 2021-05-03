@@ -34,16 +34,22 @@ import {
 } from "../common/recoil.js";
 import { toast, sleep } from "../js/utils.js";
 import { getOrder, updateOrder } from "../common/api";
-import ItemList from "../components/itemlist.jsx";
+import PostCode from "../components/postcode.jsx";
 
 const OrderPage = () => {
   const [selected, setSelected] = useState("saved_address");
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [orderData, setOrderData] = useRecoilState(orderDataState);
+  const [orderInput, setOrderInput] = useState({
+    receiver_name: "",
+    receiver_phone: "",
+    address: "",
+  });
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
 
+  console.log("인풋인풋", orderInput);
   useEffect(() => {
     const fetchOrder = async () => {
       let res = await getOrder();
@@ -56,12 +62,17 @@ const OrderPage = () => {
     console.log("주문데이터내놔", orderData);
   }, [cartData]);
 
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    setOrderInput({ ...orderInput, [name]: value });
+  };
+
   const onClickPayment = async () => {
     let res = await updateOrder({
-      receiver_name: "test",
-      receiver_phone: "010-1234-1234",
+      receiver_name: orderInput.receiver_name,
+      receiver_phone: orderInput.receiver_phone,
       zipcode: "123423",
-      address1: "서울시 성동구 성수일로19길",
+      address1: orderInput.address,
       address2: "4층 인썸니아",
       total: cartTotalPrice,
       order_status: "prepaid",
@@ -71,6 +82,8 @@ const OrderPage = () => {
       setCartData(res.data.line_items);
     }
     toast("주문이 완료되었습니다");
+    await sleep(400);
+    location.replace("/");
   };
 
   return (
@@ -103,50 +116,77 @@ const OrderPage = () => {
           </List>
         </Block>
       )}
-      <BlockTitle className="mx-7 my-4 font-bold">배송지 정보</BlockTitle>
+      <BlockTitle className="mx-7 my-4 font-bold">고객 정보</BlockTitle>
       <Block className="mx-7 ">
-        <List menuList className=" mt-0">
-          <ListItem
-            link
-            title="기존 배송지"
-            selected={selected === "saved_address"}
-            onClick={() => setSelected("saved_address")}
-          >
-            <Icon
-              md="material:home"
-              aurora="f7:house_fill"
-              ios="f7:house_fill"
-              slot="media"
-            />
-          </ListItem>
-          <ListItem
-            link
-            title="신규입력"
-            selected={selected === "new_address"}
-            onClick={() => setSelected("new_address")}
-          >
-            <Icon
-              md="material:person"
-              aurora="f7:person_fill"
-              ios="f7:person_fill"
-              slot="media"
-            />
-          </ListItem>
+        <List inlineLabels noHairlines className=" mt-0">
+          <ListInput
+            name="name"
+            label="주문자 성함"
+            type="text"
+            clearButton
+            autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          />
+
+          <ListInput
+            name="phone"
+            label="연락처"
+            type="tel"
+            clearButton
+            autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          />
+          <ListInput
+            name="email"
+            label="이메일"
+            type="email"
+            clearButton
+            autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          />
         </List>
       </Block>
-      <BlockTitle className="mx-7 my-4 font-bold">고객 정보</BlockTitle>
+      <BlockTitle className="mx-7 my-4 font-bold">배송지 정보</BlockTitle>
       <Block className="mx-2">
         <List inlineLabels noHairlines className=" mt-0">
-          <ListInput name="배송지명" label="배송지명" type="text" clearButton>
+          {/*<ListInput
+            name="배송지명"
+            label="배송지명"
+            type="text"
+            clearButton
+             autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          >
+            <Icon icon="demo-list-icon" slot="media" />
+          </ListInput>*/}
+          <ListInput
+            name="receiver_name"
+            label="수령인"
+            type="text"
+            clearButton
+            autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          >
             <Icon icon="demo-list-icon" slot="media" />
           </ListInput>
-          <ListInput name="수령인" label="수령인" type="text" clearButton>
+          <ListInput
+            name="address"
+            label="배송지"
+            type="text"
+            clearButton
+            autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          >
             <Icon icon="demo-list-icon" slot="media" />
           </ListInput>
-          <ListInput name="배송지" label="배송지" type="text" clearButton>
-            <Icon icon="demo-list-icon" slot="media" />
-          </ListInput>
-          <ListInput name="연락처" label="연락처" type="tel" clearButton>
+          <ListInput
+            name="receiver_phone"
+            label="연락처"
+            type="tel"
+            clearButton
+            autoComplete={false}
+            onChange={(e) => onInputChange(e)}
+          >
             <Icon icon="demo-list-icon" slot="media" />
           </ListInput>
         </List>
