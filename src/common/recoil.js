@@ -40,7 +40,7 @@ export const alreadyHasCartState = atom({
   default: false,
 });
 
-// export const cartSelector = selector({
-//   key: "cartSelector",
-//   get:
-// });
+export const orderDataState = atom({
+  key: "orderDataState",
+  default: [],
+});

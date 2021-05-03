@@ -48,14 +48,14 @@ export const getItems = () => API.get("/items");
 export const getItem = (params) => API.get(`/items/${params}`);
 
 // Cart
+export const getCart = () => API.get(`/line_items`);
 export const createCart = (params) =>
   API.patch(`/line_items/${params.item_id}`, params);
 export const updateCart = (params) => API.patch(`/line_items/${params}`);
-export const getCart = () => API.get(`/line_items`);
 export const deleteCart = (params) =>
   API.delete(`/line_items/${params.item_id}`, params);
 
 // Order
-export const getOrder = () => API.get(`/orders`);
-export const createOrder = (params) => API.post(`/order/${params}`);
-export const updateOrder = (params) => API.patch(`/order/${params}`);
+export const getOrder = () => API.get(`/order`);
+export const createOrder = (params) => API.post(`/order`, params);
+export const updateOrder = (params) => API.patch(`/order`, params);

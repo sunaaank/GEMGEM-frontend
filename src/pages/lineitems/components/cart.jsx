@@ -1,18 +1,4 @@
-import {
-  Block,
-  BlockTitle,
-  Button,
-  Col,
-  f7,
-  Link,
-  List,
-  ListItem,
-  Navbar,
-  NavLeft,
-  NavTitle,
-  Page,
-  Row,
-} from "framework7-react";
+import { Button, Col, List, ListItem, Row } from "framework7-react";
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 
@@ -50,6 +36,7 @@ const Cart = ({
           </div>
         </ul>
       </List>
+
       <div className="p-3 text-right">
         <Row>
           <Col width="66">배송비</Col>
@@ -57,7 +44,7 @@ const Cart = ({
         </Row>
         <Row>
           <Col width="66">총 주문금액</Col>
-          <Col width="33">{cartTotalPrice}원</Col>
+          <Col width="33">{cartTotalPrice} 원</Col>
         </Row>
       </div>
 

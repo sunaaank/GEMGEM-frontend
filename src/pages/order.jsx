@@ -26,43 +26,86 @@ import {
   create,
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
-import { updateOrder } from "../common/api";
 import { useRecoilState } from "recoil";
-import { cartDataState, cartTotalPriceState } from "../common/recoil.js";
+import {
+  cartDataState,
+  cartTotalPriceState,
+  orderDataState,
+} from "../common/recoil.js";
 import { toast, sleep } from "../js/utils.js";
+import { getOrder, updateOrder } from "../common/api";
+import ItemList from "../components/itemlist.jsx";
 
 const OrderPage = () => {
   const [selected, setSelected] = useState("saved_address");
   const [cartData, setCartData] = useRecoilState(cartDataState);
+  const [orderData, setOrderData] = useRecoilState(orderDataState);
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
 
+  useEffect(() => {
+    const fetchOrder = async () => {
+      let res = await getOrder();
+      if (!!res.data) {
+        setOrderData(res.data);
+      }
+    };
+
+    fetchOrder();
+    console.log("주문데이터내놔", orderData);
+  }, [cartData]);
+
   const onClickPayment = async () => {
-    await updateOrder({
-      receiver_name: itemData.price,
-      receiver_phone: itemTotalPrice,
-      zipcode: rentDate.startDate,
-      address1: rentDate.endDate,
-      address2: packageOption,
+    let res = await updateOrder({
+      receiver_name: "test",
+      receiver_phone: "010-1234-1234",
+      zipcode: "123423",
+      address1: "서울시 성동구 성수일로19길",
+      address2: "4층 인썸니아",
       total: cartTotalPrice,
       order_status: "prepaid",
     });
-
-    // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
+    if (!!res.data) {
+      setOrderData(res.data);
+      setCartData(res.data.line_items);
+    }
     toast("주문이 완료되었습니다");
   };
 
   return (
-    <Page name="order">
+    <Page name="order" noToolBar>
       <Navbar title="주문 정보" noHairline sliding={false} backLink="Back" />
-      <BlockTitle className="mx-7 my-4">주문상품 정보</BlockTitle>
-      <Block>
-        <p>🚩🚩🚩장바구니에서 구매확정 리스트를 전달받으세요</p>
-      </Block>
-      <BlockTitle className="mx-7 my-4">배송지 정보</BlockTitle>
-      <Block className="mx-7 my-10">
-        <List menuList>
+      <BlockTitle className="mx-7 my-4 font-bold">주문상품 정보</BlockTitle>
+      {cartData.length && (
+        <Block>
+          <List mediaList className="mx-4 mt-0">
+            <ul className="ul flex flex-wrap">
+              {cartData.map((lineitem, index) => (
+                <ListItem
+                  key={index}
+                  title={lineitem.item.name}
+                  subtitle={lineitem.total}
+                  text={
+                    <div className="flex flex-col">
+                      <p>
+                        {lineitem.rent_startdate}~{lineitem.rent_enddate}
+                      </p>
+                      <p>포장옵션: {lineitem.package_type}</p>
+                    </div>
+                  }
+                  onClick={() => onClickItem(lineitem.item.id)}
+                >
+                  <img slot="media" width="90" src={lineitem.item.image_url} />
+                </ListItem>
+              ))}
+            </ul>
+          </List>
+        </Block>
+      )}
+      <BlockTitle className="mx-7 my-4 font-bold">배송지 정보</BlockTitle>
+      <Block className="mx-7 ">
+        <List menuList className=" mt-0">
           <ListItem
             link
             title="기존 배송지"
@@ -91,9 +134,9 @@ const OrderPage = () => {
           </ListItem>
         </List>
       </Block>
-      <BlockTitle className="mx-7 my-4">고객 정보</BlockTitle>
-      <Block className="mx-7 my-10">
-        <List inlineLabels noHairlines>
+      <BlockTitle className="mx-7 my-4 font-bold">고객 정보</BlockTitle>
+      <Block className="mx-2">
+        <List inlineLabels noHairlines className=" mt-0">
           <ListInput name="배송지명" label="배송지명" type="text" clearButton>
             <Icon icon="demo-list-icon" slot="media" />
           </ListInput>
@@ -109,9 +152,9 @@ const OrderPage = () => {
         </List>
       </Block>
 
-      <BlockTitle className="mx-7 my-4">결제 수단</BlockTitle>
-      <Block className="mx-7 my-10">
-        <List>
+      <BlockTitle className="mx-7 my-4 font-bold">결제 수단</BlockTitle>
+      <Block className="mx-7">
+        <List className=" mt-0">
           <ListItem
             title="신용카드"
             selected={selected === "new_address"}

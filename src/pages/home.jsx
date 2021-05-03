@@ -45,12 +45,12 @@ const HomePage = () => {
           let res = await getCart();
           if (!!res.data) {
             setCartData(res.data);
-            console.log("🎁getCart", cartData);
           }
+          console.log("🎁getCart", cartData);
         };
 
         fetchCart();
-      }, [alreadyHasItem]);
+      }, [alreadyHasItem, cartTotalPrice]);
 
     useEffect(() => {
       const sumCartPrice = () => {

@@ -6,6 +6,7 @@ import {
   cartTotalPriceState,
   alreadyHasCartState,
   alreadyHasItemState,
+  orderDataState,
 } from "../../common/recoil.js";
 import Cart from "../lineitems/components/cart.jsx";
 import NoCart from "../lineitems/components/nocart.jsx";
@@ -27,16 +28,15 @@ const CartPage = () => {
   const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
     alreadyHasItemState
   );
+  const [orderData, setOrderData] = useRecoilState(orderDataState);
 
   const onClickDeleteCart = (e) => {
-    console.log("item_id를 잡아봅시다", e.target.getAttribute("value"));
     const deleteCartItem = async () => {
       let res = await deleteCart({
         item_id: e.target.getAttribute("value"),
       });
       if (!!res.data) {
         setCartData(res.data);
-
         toast("상품이 삭제되었습니다");
       }
     };
@@ -47,23 +47,24 @@ const CartPage = () => {
   };
 
   const onClickOrder = async () => {
-    await updateOrder({
-      // total: totalprice,
+    let res = await updateOrder({
+      total: cartTotalPrice,
       order_status: "prepaid",
     });
-    // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
-    f7.dialog.preloader("주문서 작성 중입니다. 잠시만 기다려주세요.");
-    console.log("주문하기 버튼 클릭");
+    if (!!res.data) {
+      setOrderData(res.data);
+      console.log("🚛getOrder", orderData);
+    }
   };
 
   return (
-    <Page name="cart" noToolbar>
+    <Page name="cart">
       <Navbar title="장바구니" className="no-hairline" />
       <a href="/order">주문 페이지 미리보기</a>
       <div className="p-3 flex flex-col items-center">
         {loggedIn ? (
           <div>
-            {cartData && cartTotalPrice ? (
+            {cartData.length && cartTotalPrice ? (
               <Cart
                 cartData={cartData}
                 cartTotalPrice={cartTotalPrice}

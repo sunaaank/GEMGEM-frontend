@@ -115,15 +115,12 @@ const ItemPage = (props) => {
   //  🚩🚩🚩 로그인/회원가입 버튼 있는 모달 띠우기 "/users/sign_in",  "/users/sign_up"
   // onchange / onclick add cart
   // goToCart 함수가 따로 존재할 필요 없음 => 에어비엔비 네이밍 컨벤션
-  const goToCart = () => {
-    {
-      loggedIn ? submitItemData() : toast("로그인을 해주세요");
-    }
-  };
 
   //  ✅ 장바구니 버튼 클릭 시 데이터 보내기
-  const submitItemData = async () => {
-    if (alreadyHasItem) {
+  const onClickAddCart = async () => {
+    if (!loggedIn) {
+      return toast("로그인 후 이용해주세요");
+    } else if (alreadyHasItem) {
       return toast("해당 상품은 <br/> 장바구니에 담겨있습니다");
     } else if (!rentDate.startDate || !rentDate.endDate) {
       return toast("대여기간을 선택해주세요");
@@ -255,7 +252,7 @@ const ItemPage = (props) => {
         <Block className="mx-3 my-8">
           <Row tag="p">
             <Col tag="span">
-              <Button large raised onClick={() => goToCart()}>
+              <Button large raised onClick={() => onClickAddCart()}>
                 장바구니
               </Button>
             </Col>

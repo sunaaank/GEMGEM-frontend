@@ -33,7 +33,7 @@ const UserItemPage = () => {
           <List className="m-0">
             <ul className="ul flex flex-row flex-wrap ">
               {itemsData.map((item, index) => (
-                <ListItem>
+                <ListItem key={index}>
                   <div className="flex flex-col ">
                     <img src={item.image_url} width="130" />
                     <p className="text-center">{item.name}</p>
