@@ -1,6 +1,7 @@
 import {
   Block,
   BlockTitle,
+  f7,
   List,
   ListItem,
   Navbar,
@@ -13,14 +14,18 @@ import { useRecoilState } from "recoil";
 import { itemsDataState } from "../common/recoil.js";
 import { logout } from "../common/api";
 import { getToken } from "../common/auth";
+import { toast, sleep } from "../js/utils";
 import ItemsSwiper from "../components/itemsSwiper.jsx";
 
 const MyPage = () => {
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);
   let loggedIn = !!getToken().token;
   const handleLogout = async () => {
-    await logout();
-    location.replace("/");
+    f7.dialog.confirm("로그아웃하시겠습니까?", function () {
+      logout();
+      toast("로그아웃 되었습니다");
+      location.replace("/");
+    });
   };
 
   const onClickItem = (id) => {
@@ -29,14 +34,14 @@ const MyPage = () => {
 
   return (
     <Page name="mypage">
-      <Navbar title="마이페이지" noHairline sliding={false} />
+      <Navbar title="마이페이지" noHairline sliding={false} href="/" />
       <div className="p-3 flex flex-col items-center">
-        <List>
+        <p>주문내역</p>
+        {/*<List>
           <ListItem
             title="회원가입"
             link="/users/sign_up"
             icon="las la-question"
-            panelClose
           ></ListItem>
         </List>
 
@@ -46,7 +51,6 @@ const MyPage = () => {
               title="로그아웃"
               link="#"
               icon="las la-question"
-              panelClose
               onClick={() => handleLogout()}
             ></ListItem>
           ) : (
@@ -54,10 +58,9 @@ const MyPage = () => {
               title="로그인"
               link="/users/sign_in"
               icon="las la-question"
-              panelClose
             ></ListItem>
           )}
-        </List>
+          </List>*/}
       </div>
       <div className="ml-4">
         <ItemsSwiper itemsData={itemsData} onClickItem={() => onClickItem()} />

@@ -58,8 +58,8 @@ export const deleteCart = (params) =>
   API.delete(`/line_items/${params.item_id}`, params);
 
 // Order
-export const getOrder = () => API.get(`/order`);
-export const createOrder = (params) => API.post(`/order`, params);
-export const updateOrder = (params) => API.patch(`/order`, params);
-
-// 카트 오더 아이디값 받아오는 api
+export const getOrder = () => API.get(`/orders`);
+export const createOrder = (params) =>
+  API.post(`/orders/${params.order_id}`, params);
+export const updateOrder = (params) =>
+  API.patch(`/orders/${params.order_id}`, params);

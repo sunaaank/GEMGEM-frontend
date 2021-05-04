@@ -31,16 +31,40 @@ import {
   cartDataState,
   cartTotalPriceState,
   orderDataState,
+  userDataState,
 } from "../common/recoil.js";
+import { getToken } from "../common/auth";
 import { toast, sleep } from "../js/utils.js";
 import { getOrder, updateOrder } from "../common/api";
-import PostCode from "../components/postcode.jsx";
+import { Formik, validateYupSchema } from "formik";
+import * as Yup from "yup";
+
+const phoneRegExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+
+const OrderSchema = Yup.object().shape({
+  email: Yup.string().email().required("필수 입력사항 입니다"),
+  name: Yup.string()
+    .min(2, "길이가 너무 짧습니다")
+    .max(20, "길이가 너무 깁니다")
+    .required("필수 입력사항 입니다"),
+  receiver_name: Yup.string()
+    .min(2, "길이가 너무 짧습니다")
+    .max(20, "길이가 너무 깁니다")
+    .required("필수 입력사항 입니다"),
+  receiver_phone: Yup.string()
+    .matches(phoneRegExp, "정확한 연락처를 입력해주세요")
+    .required("필수 입력사항 입니다"),
+  address: Yup.string().required("필수 입력사항 입니다"),
+});
 
 const OrderPage = () => {
-  const [selected, setSelected] = useState("saved_address");
+  const [paySelected, setPaySelected] = useState("credit_card");
+  const [userData, setUserData] = useRecoilState(userDataState);
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [orderData, setOrderData] = useRecoilState(orderDataState);
   const [orderInput, setOrderInput] = useState({
+    name: "",
+    email: "",
     receiver_name: "",
     receiver_phone: "",
     address: "",
@@ -48,49 +72,27 @@ const OrderPage = () => {
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
+  let loggedIn = !!getToken().token;
 
-  console.log("인풋인풋", orderInput);
-  useEffect(() => {
-    const fetchOrder = async () => {
-      let res = await getOrder();
-      if (!!res.data) {
-        setOrderData(res.data);
-      }
-    };
+  {
+    loggedIn &&
+      useEffect(() => {
+        const fetchOrder = async () => {
+          let res = await getOrder();
+          if (!!res.data) {
+            setOrderData(res.data);
+          }
+        };
 
-    fetchOrder();
-    console.log("주문데이터내놔", orderData);
-  }, [cartData]);
-
-  const onInputChange = (e) => {
-    const { name, value } = e.target;
-    setOrderInput({ ...orderInput, [name]: value });
-  };
-
-  const onClickPayment = async () => {
-    let res = await updateOrder({
-      receiver_name: orderInput.receiver_name,
-      receiver_phone: orderInput.receiver_phone,
-      zipcode: "123423",
-      address1: orderInput.address,
-      address2: "4층 인썸니아",
-      total: cartTotalPrice,
-      order_status: "prepaid",
-    });
-    if (!!res.data) {
-      setOrderData(res.data);
-      setCartData(res.data.line_items);
-    }
-    toast("주문이 완료되었습니다");
-    await sleep(400);
-    location.replace("/");
-  };
-
+        fetchOrder();
+        console.log("주문데이터내놔order", orderData);
+      }, [cartData]);
+  }
   return (
     <Page name="order" noToolBar>
       <Navbar title="주문 정보" noHairline sliding={false} backLink="Back" />
       <BlockTitle className="mx-7 my-4 font-bold">주문상품 정보</BlockTitle>
-      {cartData.length && (
+      {cartData && (
         <Block>
           <List mediaList className="mx-4 mt-0">
             <ul className="ul flex flex-wrap">
@@ -116,112 +118,170 @@ const OrderPage = () => {
           </List>
         </Block>
       )}
-      <BlockTitle className="mx-7 my-4 font-bold">고객 정보</BlockTitle>
-      <Block className="mx-7 ">
-        <List inlineLabels noHairlines className=" mt-0">
-          <ListInput
-            name="name"
-            label="주문자 성함"
-            type="text"
-            clearButton
-            autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          />
 
-          <ListInput
-            name="phone"
-            label="연락처"
-            type="tel"
-            clearButton
-            autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          />
-          <ListInput
-            name="email"
-            label="이메일"
-            type="email"
-            clearButton
-            autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          />
-        </List>
-      </Block>
-      <BlockTitle className="mx-7 my-4 font-bold">배송지 정보</BlockTitle>
-      <Block className="mx-2">
-        <List inlineLabels noHairlines className=" mt-0">
-          {/*<ListInput
-            name="배송지명"
-            label="배송지명"
-            type="text"
-            clearButton
-             autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          >
-            <Icon icon="demo-list-icon" slot="media" />
-          </ListInput>*/}
-          <ListInput
-            name="receiver_name"
-            label="수령인"
-            type="text"
-            clearButton
-            autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          >
-            <Icon icon="demo-list-icon" slot="media" />
-          </ListInput>
-          <ListInput
-            name="address"
-            label="배송지"
-            type="text"
-            clearButton
-            autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          >
-            <Icon icon="demo-list-icon" slot="media" />
-          </ListInput>
-          <ListInput
-            name="receiver_phone"
-            label="연락처"
-            type="tel"
-            clearButton
-            autoComplete={false}
-            onChange={(e) => onInputChange(e)}
-          >
-            <Icon icon="demo-list-icon" slot="media" />
-          </ListInput>
-        </List>
-      </Block>
+      <Formik
+        initialValues={{
+          name: userData.name,
+          email: userData.email,
+          receiver_name: "",
+          receiver_phone: "",
+          address: "",
+        }}
+        validationSchema={OrderSchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          await sleep(400);
+          setSubmitting(false);
+          f7.dialog.preloader("결제 중입니다");
 
-      <BlockTitle className="mx-7 my-4 font-bold">결제 수단</BlockTitle>
-      <Block className="mx-7">
-        <List className=" mt-0">
-          <ListItem
-            title="신용카드"
-            selected={selected === "new_address"}
-            onClick={() => setSelected("new_address")}
-          ></ListItem>
-          <ListItem
-            title="휴대폰 결제"
-            selected={selected === "new_address"}
-            onClick={() => setSelected("new_address")}
-          ></ListItem>
-          <ListItem
-            title="무통장입금"
-            selected={selected === "new_address"}
-            onClick={() => setSelected("new_address")}
-          ></ListItem>
-        </List>
-        <Button
-          large
-          raised
-          fill
-          href="#"
-          className="mb-10"
-          onClick={() => onClickPayment()}
-        >
-          결제하기
-        </Button>
-      </Block>
+          try {
+            let res = await updateOrder({
+              order_id: orderData.id,
+              receiver_name: values.receiver_name,
+              receiver_phone: values.receiver_phone,
+              zipcode: "123423",
+              address1: values.address,
+              address2: "4층 인썸니아",
+            });
+
+            if (!!res.data) {
+              setOrderData(res.data);
+              setCartData(res.data.line_items);
+            }
+
+            f7.dialog.close();
+            toast("주문이 정상적으로 처리되었습니다");
+            location.replace("/");
+          } catch (error) {
+            f7.dialog.close();
+            toast(`${error?.response?.data || error?.message}`);
+          }
+        }}
+        validateOnMount={true}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+          isValid,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <BlockTitle className="mx-7 my-4 font-bold">고객 정보</BlockTitle>
+            <Block className="mx-7 ">
+              <List inlineLabels noHairlines className=" mt-0">
+                <ListInput
+                  name="name"
+                  label="주문자 성함"
+                  type="text"
+                  clearButton
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.name}
+                  errorMessageForce={true}
+                  errorMessage={touched.name && errors.name}
+                  // onChange={(e) => onInputChange(e)}
+                />
+
+                <ListInput
+                  name="email"
+                  label="이메일"
+                  type="email"
+                  clearButton
+                  // onChange={(e) => onInputChange(e)}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                  errorMessageForce={true}
+                  errorMessage={touched.email && errors.email}
+                />
+              </List>
+            </Block>
+            <BlockTitle className="mx-7 my-4 font-bold">배송지 정보</BlockTitle>
+            <Block className="mx-2">
+              <List inlineLabels noHairlines className="mt-0">
+                <ListInput
+                  name="receiver_name"
+                  label="수령인"
+                  type="text"
+                  placeholder="예) 인썸니아"
+                  value={values.receiver_name}
+                  errorMessageForce={true}
+                  errorMessage={touched.receiver_name && errors.receiver_name}
+                  clearButton
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  <Icon icon="demo-list-icon" slot="media" />
+                </ListInput>
+                <ListInput
+                  name="address"
+                  label="배송지"
+                  type="text"
+                  placeholder="예) 서울특별시 성동구 성수일로 19"
+                  value={values.address}
+                  errorMessageForce={true}
+                  errorMessage={touched.address && errors.address}
+                  clearButton
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  <Icon icon="demo-list-icon" slot="media" />
+                </ListInput>
+                <ListInput
+                  name="receiver_phone"
+                  label="연락처"
+                  type="tel"
+                  placeholder="예) 010-1234-1234"
+                  value={values.receiver_phone}
+                  errorMessageForce={true}
+                  errorMessage={touched.receiver_phone && errors.receiver_phone}
+                  clearButton
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  <Icon icon="demo-list-icon" slot="media" />
+                </ListInput>
+              </List>
+            </Block>
+
+            <BlockTitle className="mx-7 my-4 font-bold">결제 수단</BlockTitle>
+            <Block className="mx-7">
+              <List className=" mt-0">
+                <ListItem
+                  title="신용카드"
+                  selected={paySelected === "credit_card"}
+                  onClick={() => setPaySelected("credit_card")}
+                ></ListItem>
+                <ListItem
+                  title="휴대폰 결제"
+                  selected={paySelected === "phone"}
+                  onClick={() => setPaySelected("phone")}
+                ></ListItem>
+                <ListItem
+                  title="계좌이체"
+                  selected={paySelected === "bank"}
+                  onClick={() => setPaySelected("bank")}
+                ></ListItem>
+              </List>
+              <div className="p-1">
+                <Button
+                  type="submit"
+                  fill
+                  large
+                  className="button disabled:opacity-50"
+                  disabled={isSubmitting || !isValid}
+                  className="mb-10"
+                >
+                  결제하기
+                </Button>
+              </div>
+            </Block>
+          </form>
+        )}
+      </Formik>
     </Page>
   );
 };

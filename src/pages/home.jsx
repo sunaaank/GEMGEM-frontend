@@ -8,12 +8,13 @@ import {
   ListItem,
   Navbar,
   NavLeft,
+  NavRight,
   NavTitle,
   Page,
   Row,
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   cartDataState,
   cartTotalPriceState,
@@ -21,6 +22,7 @@ import {
   alreadyHasItemState,
   userDataState,
   orderDataState,
+  itemsDataState,
 } from "../common/recoil.js";
 import Nav from "../components/nav.jsx";
 import IntroPage from "../pages/intro.jsx";
@@ -30,6 +32,7 @@ import { getCart, getUser } from "../common/api";
 const HomePage = () => {
   let loggedIn = !!getToken().token;
   const [userData, setUserData] = useRecoilState(userDataState);
+  const itemsData = useRecoilValue(itemsDataState);
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
@@ -88,41 +91,51 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar title="GEMGEM" noHairline sliding={false} />
-      <Page name="home">
-        <div className="p-0 m-0">
-          <img
-            src={`https://www.onespan.com/sites/default/files/blog/images/icon.ruby_.png`}
-          />
+      <Navbar noHairline sliding={false}>
+        <NavTitle href="/">GEMGEM</NavTitle>
+        <NavRight>
+          <Link icon="las la-bars" panelOpen="right" />
+        </NavRight>
+      </Navbar>
 
-          <div className="my-10">
-            <div className="flex flex-col items-center"></div>
+      <Page name="home">
+        {itemsData.length && (
+          <div className="p-0 mt-0 mx-8">
+            <Row className="justify-center">
+              <Col width="65">
+                <img src={itemsData[2].image_url} />
+              </Col>
+              <Col width="35">
+                <div>
+                  <img src={itemsData[5].image_url} />
+
+                  <img src={itemsData[4].image_url} />
+                </div>
+              </Col>
+            </Row>
+            <Row className="justify-center">
+              <Col width="35">
+                <div>
+                  <img src={itemsData[4].image_url} />
+                  <img src={itemsData[2].image_url} />
+                </div>
+              </Col>
+
+              <Col width="65">
+                <img src={itemsData[3].image_url} />
+              </Col>
+            </Row>
+
+            <Row className="justify-center">
+              <Col>
+                <img src={itemsData[2].image_url} />
+              </Col>
+              <Col>
+                <img src={itemsData[5].image_url} />
+              </Col>
+            </Row>
           </div>
-          <BlockTitle className="mx-3">✨GEMGEM'S CATEGORY</BlockTitle>
-          <List mediaList inset>
-            <ListItem link="#" title="JAMJAMJAM" subtitle="yup">
-              <img
-                slot="media"
-                src="https://cdn.framework7.io/placeholder/fashion-88x88-4.jpg"
-                width="44"
-              />
-            </ListItem>
-            <ListItem link="#" title="JEMJEMJEM" subtitle="yop">
-              <img
-                slot="media"
-                src="https://cdn.framework7.io/placeholder/fashion-88x88-5.jpg"
-                width="44"
-              />
-            </ListItem>
-            <ListItem link="#" title="JEMS" subtitle="yep">
-              <img
-                slot="media"
-                src="https://cdn.framework7.io/placeholder/fashion-88x88-6.jpg"
-                width="44"
-              />
-            </ListItem>
-          </List>
-        </div>
+        )}
       </Page>
     </>
   );

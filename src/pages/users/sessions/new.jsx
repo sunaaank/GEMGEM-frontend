@@ -33,9 +33,11 @@ const SessionNewPage = () => {
           try {
             await login({ user: values });
             f7.dialog.close();
+            toast("로그인 되었습니다");
             location.replace("/");
           } catch (error) {
             f7.dialog.close();
+
             toast
               .get()
               .setToastText(error?.response?.data || error?.message)

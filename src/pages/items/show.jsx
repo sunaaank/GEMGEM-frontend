@@ -122,7 +122,10 @@ const ItemPage = (props) => {
   //  ✅ 장바구니 버튼 클릭 시 데이터 보내기
   const onClickAddCart = async () => {
     if (!loggedIn) {
-      return toast("로그인 후 이용해주세요");
+      f7.dialog.confirm("로그인하시겠습니까?", function () {
+        location.replace("/users/sign_in");
+      });
+      // toast("로그인 후 이용해주세요");
     } else if (alreadyHasItem) {
       return toast("해당 상품은 <br/> 장바구니에 담겨있습니다");
     } else if (!rentDate.startDate || !rentDate.endDate) {
@@ -138,7 +141,14 @@ const ItemPage = (props) => {
       });
 
       // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
-      toast("장바구니에 상품이 담겼습니다");
+      f7.dialog.confirm(
+        "장바구니를 확인하시겠습니까?",
+        "장바구니에 상품이 담겼습니다",
+        function () {
+          document.getElementById("tab-cart").click();
+        }
+      );
+      // toast("장바구니에 상품이 담겼습니다");
       setAlreadyHasItem(true);
       setRentDate({ startDate: "", endDate: "" });
     }
@@ -160,29 +170,28 @@ const ItemPage = (props) => {
           {itemData.name}
         </BlockTitle>
 
-        <i className="f7-icons" value={itemData.id}>
-          heart
-        </i>
-
-        <Block className="mx-7 my-10">
+        <Block className="mx-7 my-6">
           <List>
-            <ListItem className="border-red-500 border-solid border-2 rounded-xl">
-              {itemData.gem_install_code}
-              <CopyToClipboard
-                className="h-10 w-10"
-                text={itemData.gem_install_code}
-              >
-                <button className="w-auto">
-                  <Icon f7="doc_text" color="red" />
-                </button>
-              </CopyToClipboard>
-            </ListItem>
             <ListItem>
               <Link href={itemData.github_url}>
                 <Icon f7="logo_github" className="mr-2" />
-                <p>{itemData.name}</p>
               </Link>
+              <CopyToClipboard
+                className="h-10 w-10 outline-none focus:outline-none"
+                text={itemData.gem_install_code}
+              >
+                <button
+                  className="w-auto outline-none focus:outline-none"
+                  onClick={() => toast("잼 설치 코드 <br/> 클립보드 저장완료")}
+                >
+                  <Icon f7="doc_text" color="red" />
+                </button>
+              </CopyToClipboard>
+              <i className="f7-icons" value={itemData.id}>
+                heart
+              </i>
             </ListItem>
+
             <ListItem>{itemData.price}</ListItem>
           </List>
         </Block>
@@ -253,18 +262,15 @@ const ItemPage = (props) => {
           </Row>
         </Block>
         <Block className="mx-3 my-8">
-          <Row tag="p">
-            <Col tag="span">
-              <Button large raised onClick={() => onClickAddCart()}>
-                장바구니
-              </Button>
-            </Col>
-            <Col tag="span">
-              <Button large raised fill>
-                바로구매
-              </Button>
-            </Col>
-          </Row>
+          <Button
+            large
+            fill
+            raised
+            onClick={() => onClickAddCart()}
+            disabled={itemTotalPrice === "0" || (rentPeriod === "0" && true)}
+          >
+            장바구니
+          </Button>
         </Block>
         <BlockTitle className="mx-7 my-4">상품 상세정보</BlockTitle>
         <Block className="flex justify-center mx-7 my-10">
@@ -274,7 +280,6 @@ const ItemPage = (props) => {
             <ListItem>{itemData.gem_updated_at}</ListItem>
             <ListItem>{itemData.gem_version}</ListItem>
             <ListItem>{itemData.github_star}</ListItem>
-            <ListItem>{itemData.github_url}</ListItem>
           </List>
         </Block>
         <ItemGuide />

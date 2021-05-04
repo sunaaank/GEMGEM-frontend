@@ -12,7 +12,7 @@ import Cart from "../lineitems/components/cart.jsx";
 import NoCart from "../lineitems/components/nocart.jsx";
 import AskLogin from "../../components/asklogin.jsx";
 import { getToken } from "../../common/auth";
-import { deleteCart, updateOrder } from "../../common/api";
+import { deleteCart, updateOrder, getOrder } from "../../common/api";
 import { toast, sleep } from "../../js/utils.js";
 import { date } from "yup";
 
@@ -46,8 +46,24 @@ const CartPage = () => {
     console.log("cartdelete", cartTotalPrice);
   };
 
+  {
+    loggedIn &&
+      useEffect(() => {
+        const fetchOrder = async () => {
+          let res = await getOrder();
+          if (!!res.data) {
+            setOrderData(res.data);
+          }
+        };
+
+        fetchOrder();
+        console.log("주문데이터내놔cart", orderData);
+      }, [cartData]);
+  }
+
   const onClickOrder = async () => {
     let res = await updateOrder({
+      order_id: orderData.id,
       total: cartTotalPrice,
       order_status: "prepaid",
     });
@@ -69,7 +85,7 @@ const CartPage = () => {
                 cartData={cartData}
                 cartTotalPrice={cartTotalPrice}
                 onClickDeleteCart={onClickDeleteCart}
-                onClickOrder={onClickOrder}
+                onClickOrder={() => onClickOrder()}
               />
             ) : (
               <NoCart />
