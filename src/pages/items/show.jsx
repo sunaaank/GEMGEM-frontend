@@ -90,7 +90,6 @@ const ItemPage = (props) => {
   };
 
   //  ✅ 대여기간 계산하기
-  // 🚩🚩🚩변수명 바꾸기
   useEffect(() => {
     const getRentPeriod = () => {
       const startDay = moment(rentDate.startDate);
@@ -126,7 +125,6 @@ const ItemPage = (props) => {
       f7.dialog.confirm("로그인하시겠습니까?", function () {
         location.replace("/users/sign_in");
       });
-      // toast("로그인 후 이용해주세요");
     } else if (alreadyHasItem) {
       return toast("해당 상품은 <br/> 장바구니에 담겨있습니다");
     } else if (!rentDate.startDate || !rentDate.endDate) {
@@ -148,7 +146,6 @@ const ItemPage = (props) => {
           document.getElementById("tab-cart").click();
         }
       );
-      // toast("장바구니에 상품이 담겼습니다");
       setAlreadyHasItem(true);
       setRentDate({ startDate: "", endDate: "" });
     }
@@ -158,13 +155,11 @@ const ItemPage = (props) => {
     <Page name="item">
       <Navbar title={itemData.name} className="no-hairline" backLink="Back" />
       <div
-        className="fab fab-extended fab-right-bottom fixed color-red"
+        className="fab fab-extended fab-center-bottom bottom-0 fixed color-red w-full"
         onClick={() => onClickAddCart()}
       >
         <a href="#">
-          <i className="icon f7-icons if-not-md">plus</i>
-          <i className="icon material-icons md-only">add</i>
-          <div className="fab-text">장바구니 담기</div>
+          <div className="fab-text text-lg">구매하기</div>
         </a>
       </div>
 

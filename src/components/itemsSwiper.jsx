@@ -17,7 +17,7 @@ const ItemsSwiper = ({ itemsData, onClickItem }) => {
   return (
     <>
       <BlockTitle className="mx-7 mt-6 mb-4 font-semibold text-lg">
-        최근 본 상품
+        최근 주문한 상품
       </BlockTitle>
       <Block className="ml-7">
         <Swiper

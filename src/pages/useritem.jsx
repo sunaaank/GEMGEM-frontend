@@ -30,18 +30,20 @@ const UserItemPage = () => {
 
       {loggedIn ? (
         <div className="p-3 m-0">
-          <List className="m-0">
-            <ul className="ul flex flex-row flex-wrap ">
+          <div className="mx-4">
+            <ul className="ul flex flex-row justify-center flex-wrap ">
               {itemsData.map((item, index) => (
-                <ListItem key={index}>
-                  <div className="flex flex-col ">
-                    <img src={item.image_url} width="130" />
-                    <p className="text-center">{item.name}</p>
+                <div key={index}>
+                  <div className="flex flex-col my-3 mx-3">
+                    <img src={item.image_url} width="120" />
+                    <p className="mt-2 text-center font-semibold">
+                      {item.name}
+                    </p>
                   </div>
-                </ListItem>
+                </div>
               ))}
             </ul>
-          </List>
+          </div>
         </div>
       ) : (
         <AskLogin />
