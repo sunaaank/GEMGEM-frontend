@@ -18,7 +18,7 @@ import {
 } from "../../common/recoil.js";
 import Cart from "../lineitems/components/cart.jsx";
 import NoCart from "../lineitems/components/nocart.jsx";
-import AskLogin from "../../components/asklogin.jsx";
+import AskLogin from "../../components/askLogin.jsx";
 import { getToken } from "../../common/auth";
 import { deleteCart, updateOrder, getOrder } from "../../common/api";
 import { toast, sleep } from "../../js/utils.js";

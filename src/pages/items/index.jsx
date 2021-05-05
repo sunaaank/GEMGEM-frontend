@@ -1,6 +1,5 @@
 import {
   Block,
-  BlockTitle,
   Chip,
   Link,
   Tab,
@@ -16,17 +15,13 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { itemsDataState } from "../../common/recoil.js";
 import ItemList from "../../components/itemlist.jsx";
-import { configs } from "../../common/config.js";
-import { getToken } from "../../common/auth";
 import { getItems, getCategories } from "../../common/api";
 
 const ItemsPage = (props) => {
-  // router params 찾아보기
   const onClickItem = (id) => {
     props.f7router.navigate(`/items/${id}/`);
   };
 
-  let loggedIn = !!getToken().token;
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);
   const [categoriesData, setCategoriesData] = useState([]);
   const [currentTab, setCurrentTab] = useState("tab1");
@@ -41,7 +36,6 @@ const ItemsPage = (props) => {
 
     fetchItems();
   }, []);
-  console.log("💌Items", itemsData);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -76,36 +70,28 @@ const ItemsPage = (props) => {
           className="bg-transparent mt-0 mb-4 py-0"
         >
           <div className="flex flex-row justify-center mt-0 p-0 bg-white tabbar-scrollable">
-            <Link tabLink="#tab-1" tabLinkActive className="w-full h-20">
-              <Chip
-                outline={currentTab !== "tab1" && true}
-                text="ALL"
-                color={currentTab !== "tab2" ? "red" : "black"}
-                tooltipTrigger="hover"
-                onClick={() => setCurrentTab("tab1")}
-                className=" w-20 h-9 flex justify-center"
-              />
-            </Link>
-            <Link tabLink="#tab-2" className="block h-20 mx-2">
-              <Chip
-                outline={currentTab !== "tab2" && true}
-                text="Rails Plugins"
-                color={currentTab !== "tab2" ? "red" : "black"}
-                tooltipTrigger="hover"
-                className="w-full h-9 mx-1 flex justify-center"
-                onClick={() => setCurrentTab("tab2")}
-              />
-            </Link>
-            <Link tabLink="#tab-3" className="block h-20 ">
-              <Chip
-                outline={currentTab !== "tab3" && true}
-                text="Active Record"
-                color={currentTab !== "tab2" ? "red" : "black"}
-                tooltipTrigger="hover"
-                className="w-full h-9 flex justify-center"
-                onClick={() => setCurrentTab("tab3")}
-              />
-            </Link>
+            {CATEGORY_CHIPS.map((chip) => (
+              <Link
+                key={chip.id}
+                tabLink={`#tab-${chip.id}`}
+                tabLinkActive={chip.id === 1 && true}
+                className={`h-20 ${chip.id === 1 ? "w-full" : "block"} ${
+                  chip.id === 2 && "mx-2"
+                }`}
+              >
+                <Chip
+                  outline={currentTab !== chip.tab && true}
+                  text={chip.name}
+                  color={currentTab !== "tab2" ? "red" : "black"}
+                  tooltipTrigger="hover"
+                  onClick={() => setCurrentTab(chip.tab)}
+                  className={`h-9 flex justify-center ${
+                    chip.id === 1 ? "w-20" : "w-full"
+                  } ${chip.id === 2 && "mx-1"}
+                  `}
+                />
+              </Link>
+            ))}
           </div>
         </Toolbar>
         <Tabs className="my-0 mx-6 p-0">
@@ -136,3 +122,17 @@ const ItemsPage = (props) => {
   );
 };
 export default ItemsPage;
+
+const CATEGORY_CHIPS = [
+  { id: 1, name: "ALL", tab: "tab1" },
+  {
+    id: 2,
+    name: "Rails Plugins",
+    tab: "tab2",
+  },
+  {
+    id: 3,
+    name: "Active Record",
+    tab: "tab3",
+  },
+];

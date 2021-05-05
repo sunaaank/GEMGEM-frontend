@@ -19,7 +19,7 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import { itemsDataState } from "../common/recoil.js";
 import { getToken } from "../common/auth";
-import AskLogin from "../components/asklogin.jsx";
+import AskLogin from "../components/askLogin.jsx";
 
 const UserItemPage = () => {
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);

@@ -1,31 +1,14 @@
-import {
-  Block,
-  BlockTitle,
-  Button,
-  Col,
-  Link,
-  List,
-  ListItem,
-  Navbar,
-  NavLeft,
-  NavRight,
-  NavTitle,
-  Page,
-  Row,
-} from "framework7-react";
-import React, { useState, useEffect } from "react";
+import { Link, Navbar, NavRight, NavTitle, Page, Row } from "framework7-react";
+import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   cartDataState,
   cartTotalPriceState,
-  alreadyHasCartState,
   alreadyHasItemState,
   userDataState,
   orderDataState,
   itemsDataState,
 } from "../common/recoil.js";
-import Nav from "../components/nav.jsx";
-import IntroPage from "../pages/intro.jsx";
 import { getToken } from "../common/auth";
 import { getCart, getUser } from "../common/api";
 
@@ -37,57 +20,46 @@ const HomePage = () => {
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
-  const [orderData, setOrderData] = useRecoilState(orderDataState);
-  const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
-    alreadyHasCartState
-  );
-  const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
-    alreadyHasItemState
-  );
+  const orderData = useRecoilValue(orderDataState);
+  const alreadyHasItem = useRecoilValue(alreadyHasItemState);
 
-  {
-    loggedIn &&
-      // 유저 기본정보 받아오기
+  useEffect(() => {
+    const fetchCart = async () => {
+      let res = await getCart();
+      if (!!res.data) {
+        setCartData(res.data);
+      }
+      console.log("🎁getCart", cartData);
+    };
 
-      useEffect(() => {
-        const fetchCart = async () => {
-          let res = await getCart();
-          if (!!res.data) {
-            setCartData(res.data);
-          }
-          console.log("🎁getCart", cartData);
-        };
+    fetchCart();
+  }, [alreadyHasItem, cartTotalPrice]);
 
-        fetchCart();
-      }, [alreadyHasItem, cartTotalPrice]);
-
-    useEffect(() => {
-      const fetchUser = async () => {
-        if (loggedIn) {
-          let res = await getUser();
-          if (!!res.data) {
-            setUserData(res.data);
-          }
-          console.log("getUser", userData);
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (loggedIn) {
+        let res = await getUser();
+        if (!!res.data) {
+          setUserData(res.data);
         }
-      };
+      }
+    };
 
-      fetchUser();
-    }, [orderData]);
+    fetchUser();
+  }, [orderData]);
 
-    useEffect(() => {
-      const sumCartPrice = () => {
-        let cartPrice = [0, 0];
-        cartData && cartData.map((item) => cartPrice.push(item.total));
-        const totalPrice = cartPrice.reduce((item1, item2) => item1 + item2);
-        const addShippingTotalPrice =
-          totalPrice >= 30000 ? totalPrice : totalPrice + 3000;
-        setCartTotalPrice(addShippingTotalPrice);
-      };
+  useEffect(() => {
+    const sumCartPrice = () => {
+      let cartPrice = [0, 0];
+      cartData && cartData.map((item) => cartPrice.push(item.total));
+      const totalPrice = cartPrice.reduce((item1, item2) => item1 + item2);
+      const addShippingTotalPrice =
+        totalPrice >= 30000 ? totalPrice : totalPrice + 3000;
+      setCartTotalPrice(addShippingTotalPrice);
+    };
 
-      sumCartPrice();
-    }, [cartData]);
-  }
+    sumCartPrice();
+  }, [cartData]);
 
   return (
     <>
@@ -107,7 +79,6 @@ const HomePage = () => {
               </div>
               <div className="flex flex-col w-33">
                 <img src={itemsData[5].image_url} width="355" />
-
                 <img src={itemsData[4].image_url} width="355" />
               </div>
             </Row>

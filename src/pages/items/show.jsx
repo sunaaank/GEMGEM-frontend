@@ -1,16 +1,13 @@
 import {
   Block,
   BlockTitle,
-  Button,
   Col,
   f7,
-  Fab,
   Icon,
   Link,
   List,
   ListItem,
   ListInput,
-  PageContent,
   Swiper,
   SwiperSlide,
   Page,
@@ -18,7 +15,7 @@ import {
   Row,
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   packageOptionState,
   rentDateState,
@@ -36,7 +33,7 @@ import Review from "../../components/review.jsx";
 import { getItem } from "../../common/api";
 import { createCart } from "../../common/api";
 import { getToken } from "../../common/auth";
-import { toast, sleep } from "../../js/utils.js";
+import { toast } from "../../js/utils.js";
 
 const ItemPage = (props) => {
   let loggedIn = !!getToken().token;
@@ -53,10 +50,7 @@ const ItemPage = (props) => {
   const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
     alreadyHasItemState
   );
-  const [cartData, setCartData] = useRecoilState(cartDataState);
-
-  console.log("🎄패키지옵션", packageOption);
-  console.log("🎄대여기간", rentDate);
+  const cartData = useRecoilValue(cartDataState);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -225,25 +219,19 @@ const ItemPage = (props) => {
               </Col>
               <Col width="66" className="flex flex-row justify-end w-full mb-3">
                 <List className="p-0 m-0 w-auto">
-                  <ListItem
-                    className="col pr-10"
-                    radio
-                    radioIcon="start"
-                    title="베이직"
-                    value="베이직"
-                    name="demo-radio-start"
-                    defaultChecked
-                    onChange={(e) => onPackageChange(e)}
-                  ></ListItem>
-                  <ListItem
-                    className="col pr-10"
-                    radio
-                    radioIcon="start"
-                    title="프리미엄"
-                    value="프리미엄"
-                    name="demo-radio-start"
-                    onChange={(e) => onPackageChange(e)}
-                  ></ListItem>
+                  {PACKAGE_OPTIONS.map((option) => (
+                    <ListItem
+                      key={option.id}
+                      className="col pr-10"
+                      radio
+                      radioIcon="start"
+                      title={option.package_type}
+                      value={option.package_type}
+                      name="demo-radio-start"
+                      defaultChecked={option.package_type === "베이직" && true}
+                      onChange={(e) => onPackageChange(e)}
+                    ></ListItem>
+                  ))}
                 </List>
               </Col>
             </Row>
@@ -274,38 +262,17 @@ const ItemPage = (props) => {
           상품 상세정보
         </BlockTitle>
         <Block className="flex flex-col mx-10">
-          <Row className="flex flex-row mb-2 w-full">
-            <Col width="45">
-              <p>📆 FIRST RELEASE</p>
-            </Col>
-            <Col width="55">
-              <p>{itemData.gem_created_at}</p>
-            </Col>
-          </Row>
-          <Row className="flex flex-row mb-2 w-full">
-            <Col width="45">
-              <p>📅 LATEST RELEASE</p>
-            </Col>
-            <Col width="55">
-              <p>{itemData.gem_updated_at}</p>
-            </Col>
-          </Row>
-          <Row className="flex flex-row mb-2 w-full">
-            <Col width="45">
-              <p>⭐ STARS</p>
-            </Col>
-            <Col width="55">
-              <p>{itemData.github_star}</p>
-            </Col>
-          </Row>
-          <Row className="flex flex-row mb-2 w-full">
-            <Col width="45">
-              <p>🎢 VERSION</p>
-            </Col>
-            <Col width="55">
-              <p>{itemData.gem_version}</p>
-            </Col>
-          </Row>
+          {ITEM_DETAILS.map((detail) => (
+            <Row key={detail.id} className="flex flex-row mb-2 w-full">
+              <Col width="45">
+                <p>{detail.name}</p>
+              </Col>
+              <Col width="55">
+                <p>{detail.content}</p>
+              </Col>
+            </Row>
+          ))}
+
           <Row className="flex pt-4 mb-2 w-full">
             <Col>
               <p>👀 DESCRIPTION</p>
@@ -318,46 +285,21 @@ const ItemPage = (props) => {
           </Row>
         </Block>
         <ItemGuide />
-        {/*itemData.length && (
-          <Review
-            name={itemData.name}
-            image_url={itemData.image_url}
-            sub_category={itemData.sub_category.name}
-          />
-        )*/}
-        <BlockTitle className="mx-7 mt-6 mb-4 font-semibold text-lg">
-          상품 리뷰
-        </BlockTitle>
-        <Block className="px-4 mb-10">
-          <List mediaList className="m-0">
-            <ListItem
-              title={itemData.name}
-              after="⭐⭐⭐⭐⭐"
-              // subtitle={itemData.sub_category.name}
-              text="정말정말 유용합니다 요즘 웬만하면 다 이거 쓰는듯. 사람들이 다 쓰는 덴 이유가 있더라고요~"
-            >
-              <img slot="media" src={itemData.image_url} width="80" />
-            </ListItem>
-            <ListItem
-              title={itemData.name}
-              after="⭐⭐⭐"
-              // subtitle={itemData.sub_category.name}
-              text="적당히 쓸만해요. 속도가 좀 느리지만 사용하는데 크게 불편한 점은 없습니다."
-            >
-              <img slot="media" src={itemData.image_url} width="80" />
-            </ListItem>
-            <ListItem
-              title={itemData.name}
-              after="⭐1"
-              // subtitle={itemData.sub_category.name}
-              text="업데이트가 되지 않은지 5년이 지났습니다. 다른 거 쓸게요 ㅂㅂ"
-            >
-              <img slot="media" src={itemData.image_url} width="80" />
-            </ListItem>
-          </List>
-        </Block>
+        <Review name={itemData.name} image_url={itemData.image_url} />
       </Block>
     </Page>
   );
 };
 export default ItemPage;
+
+const PACKAGE_OPTIONS = [
+  { id: 1, package_type: "베이직" },
+  { id: 2, package_type: "프리미엄" },
+];
+
+const ITEM_DETAILS = [
+  { id: 1, name: "📆 FIRST RELEASE", content: `{itemData.gem_created_at}` },
+  { id: 2, name: "📅 LATEST RELEASE", content: `{itemData.gem_updated_at}` },
+  { id: 3, name: "⭐ STARS", content: `{itemData.github_star}` },
+  { id: 4, name: "🎢 VERSION", content: `{itemData.gem_version}` },
+];
