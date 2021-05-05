@@ -27,7 +27,7 @@ const ItemsList = ({ itemsData, onClickItem }) => {
               text={item.sub_category.name}
               onClick={() => onClickItem(item.id)}
             >
-              <img slot="media" width="100" src={item.image_url} />
+              <img alt={item.name} slot="media" width="100" src={item.image_url} />
             </ListItem>
           ))}
         </ul>

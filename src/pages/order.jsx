@@ -26,7 +26,7 @@ import {
   create,
 } from "framework7-react";
 import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   cartDataState,
   cartTotalPriceState,
@@ -62,16 +62,7 @@ const OrderPage = () => {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [orderData, setOrderData] = useRecoilState(orderDataState);
-  const [orderInput, setOrderInput] = useState({
-    name: "",
-    email: "",
-    receiver_name: "",
-    receiver_phone: "",
-    address: "",
-  });
-  const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
-    cartTotalPriceState
-  );
+
   let loggedIn = !!getToken().token;
 
   {
@@ -92,7 +83,7 @@ const OrderPage = () => {
     <Page name="order" noToolBar>
       <Navbar title="주문 정보" noHairline sliding={false} backLink="Back" />
       <BlockTitle className="mx-7 my-4 font-bold">주문상품 정보</BlockTitle>
-      {cartData && (
+      {loggedIn && (
         <Block>
           <List mediaList className="mx-4 mt-0">
             <ul className="ul flex flex-wrap">
@@ -134,11 +125,11 @@ const OrderPage = () => {
           f7.dialog.preloader("결제 중입니다");
 
           try {
-            let res = await updateOrder({
+            await updateOrder({
               order_id: orderData.id,
               receiver_name: values.receiver_name,
               receiver_phone: values.receiver_phone,
-              zipcode: "123423",
+              zipcode: "12323",
               address1: values.address,
               address2: "4층 인썸니아",
               order_status: "paid",
@@ -166,8 +157,8 @@ const OrderPage = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <BlockTitle className="mx-7 my-4 font-bold">고객 정보</BlockTitle>
-            <Block className="mx-7 ">
-              <List inlineLabels noHairlines className=" mt-0">
+            <Block className="mx-7">
+              <List inlineLabels noHairlines className="mt-0">
                 <ListInput
                   name="name"
                   label="주문자 성함"
@@ -178,7 +169,6 @@ const OrderPage = () => {
                   value={values.name}
                   errorMessageForce={true}
                   errorMessage={touched.name && errors.name}
-                  // onChange={(e) => onInputChange(e)}
                 />
 
                 <ListInput
@@ -202,7 +192,7 @@ const OrderPage = () => {
                   name="receiver_name"
                   label="수령인"
                   type="text"
-                  placeholder="예) 인썸니아"
+                  placeholder="인썸니아"
                   value={values.receiver_name}
                   errorMessageForce={true}
                   errorMessage={touched.receiver_name && errors.receiver_name}
@@ -216,7 +206,7 @@ const OrderPage = () => {
                   name="address"
                   label="배송지"
                   type="text"
-                  placeholder="예) 서울특별시 성동구 성수일로 19"
+                  placeholder="서울특별시 성동구 성수일로 19"
                   value={values.address}
                   errorMessageForce={true}
                   errorMessage={touched.address && errors.address}
@@ -230,7 +220,7 @@ const OrderPage = () => {
                   name="receiver_phone"
                   label="연락처"
                   type="tel"
-                  placeholder="예) 010-1234-1234"
+                  placeholder="010-1234-1234"
                   value={values.receiver_phone}
                   errorMessageForce={true}
                   errorMessage={touched.receiver_phone && errors.receiver_phone}
@@ -245,7 +235,7 @@ const OrderPage = () => {
 
             <BlockTitle className="mx-7 my-4 font-bold">결제 수단</BlockTitle>
             <Block className="mx-7">
-              <List className=" mt-0">
+              <List className="mt-0">
                 <ListItem
                   title="신용카드"
                   selected={paySelected === "credit_card"}

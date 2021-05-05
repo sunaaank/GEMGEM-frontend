@@ -102,6 +102,7 @@ const MyApp = () => {
                       />
                       <Button
                         fill
+                        id="user-login"
                         href="/users/sign_in"
                         text="로그인"
                         className="w-30 h-10 px-6 ml-3"

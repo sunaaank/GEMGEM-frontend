@@ -21,8 +21,7 @@ import NoCart from "../lineitems/components/nocart.jsx";
 import AskLogin from "../../components/askLogin.jsx";
 import { getToken } from "../../common/auth";
 import { deleteCart, updateOrder, getOrder } from "../../common/api";
-import { toast, sleep } from "../../js/utils.js";
-import { date } from "yup";
+import { toast } from "../../js/utils.js";
 
 const CartPage = () => {
   let loggedIn = !!getToken().token;
@@ -50,34 +49,15 @@ const CartPage = () => {
     };
 
     deleteCartItem();
-    console.log("🎁cart", cartData);
-    console.log("cartdelete", cartTotalPrice);
   };
-
-  // {
-  //   loggedIn &&
-  //     useEffect(() => {
-  //       const fetchOrder = async () => {
-  //         let res = await getOrder();
-  //         if (!!res.data) {
-  //           setOrderData(res.data);
-  //         }
-  //       };
-
-  //       fetchOrder();
-  //       console.log("주문데이터내놔cart", orderData);
-  //     }, [cartData]);
-  // }
 
   const onClickOrder = async () => {
     let res = await updateOrder({
-      order_id: cartData.order_id,
+      order_id: cartData[0].order_id,
       total: cartTotalPrice,
-      order_status: "prepaid",
     });
     if (!!res.data) {
       setOrderData(res.data);
-      console.log("🚛getOrder", orderData);
     }
   };
 

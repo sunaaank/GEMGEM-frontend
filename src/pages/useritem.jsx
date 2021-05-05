@@ -34,11 +34,12 @@ const UserItemPage = () => {
             <ul className="ul flex flex-row justify-center flex-wrap ">
               {itemsData.map((item, index) => (
                 <div key={index}>
-                  <div className="flex flex-col my-3 mx-3">
-                    <img src={item.image_url} width="120" />
-                    <p className="mt-2 text-center font-semibold">
-                      {item.name}
-                    </p>
+                  <div className="flex flex-col items-center my-3 mx-3">
+                    <img alt={item.name} src={item.image_url} width="120" />
+                    <div className="mt-2 flex justify-center">
+                      <i className="f7-icons text-base mr-1">heart</i>
+                      <p className="font-semibold">{item.name}</p>
+                    </div>
                   </div>
                 </div>
               ))}

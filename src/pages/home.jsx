@@ -23,44 +23,46 @@ const HomePage = () => {
   const orderData = useRecoilValue(orderDataState);
   const alreadyHasItem = useRecoilValue(alreadyHasItemState);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      let res = await getCart();
-      if (!!res.data) {
-        setCartData(res.data);
-      }
-      console.log("🎁getCart", cartData);
-    };
+  {
+    loggedIn &&
+      useEffect(() => {
+        const fetchCart = async () => {
+          let res = await getCart();
+          if (!!res.data) {
+            setCartData(res.data);
+          }
+          console.log("🎁getCart", cartData);
+        };
 
-    fetchCart();
-  }, [alreadyHasItem, cartTotalPrice]);
+        fetchCart();
+      }, [alreadyHasItem, cartTotalPrice]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (loggedIn) {
-        let res = await getUser();
-        if (!!res.data) {
-          setUserData(res.data);
+    useEffect(() => {
+      const fetchUser = async () => {
+        if (loggedIn) {
+          let res = await getUser();
+          if (!!res.data) {
+            setUserData(res.data);
+          }
         }
-      }
-    };
+      };
 
-    fetchUser();
-  }, [orderData]);
+      fetchUser();
+    }, []);
 
-  useEffect(() => {
-    const sumCartPrice = () => {
-      let cartPrice = [0, 0];
-      cartData && cartData.map((item) => cartPrice.push(item.total));
-      const totalPrice = cartPrice.reduce((item1, item2) => item1 + item2);
-      const addShippingTotalPrice =
-        totalPrice >= 30000 ? totalPrice : totalPrice + 3000;
-      setCartTotalPrice(addShippingTotalPrice);
-    };
+    useEffect(() => {
+      const sumCartPrice = () => {
+        let cartPrice = [0, 0];
+        cartData && cartData.map((item) => cartPrice.push(item.total));
+        const totalPrice = cartPrice.reduce((item1, item2) => item1 + item2);
+        const addShippingTotalPrice =
+          totalPrice >= 30000 ? totalPrice : totalPrice + 3000;
+        setCartTotalPrice(addShippingTotalPrice);
+      };
 
-    sumCartPrice();
-  }, [cartData]);
-
+      sumCartPrice();
+    }, [cartData]);
+  }
   return (
     <>
       <Navbar noHairline sliding={false}>
@@ -71,37 +73,63 @@ const HomePage = () => {
       </Navbar>
 
       <Page name="home">
-        {itemsData.length && (
-          <div className="p-0 mt-2 mx-10">
-            <Row className="flex flex-row flex-nowrap">
-              <div className="flex w-66">
-                <img src={itemsData[2].image_url} />
-              </div>
-              <div className="flex flex-col w-33">
-                <img src={itemsData[5].image_url} width="355" />
-                <img src={itemsData[4].image_url} width="355" />
-              </div>
-            </Row>
-            <Row className="flex flex-row flex-nowrap">
-              <div className="flex flex-col w-33">
-                <img src={itemsData[4].image_url} width="355" />
+        <div className="p-0 mt-2 mx-10">
+          <Row className="flex flex-row flex-nowrap">
+            <div className="flex w-66">
+              <img
+                alt="상품2번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660696-5e180400-a377-11eb-8ecd-d849e252f377.png"
+              />
+            </div>
+            <div className="flex flex-col w-33">
+              <img
+                alt="상품5번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660691-5d7f6d80-a377-11eb-94b6-2f1f61beff2d.png"
+                width="355"
+              />
+              <img
+                alt="상품4번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660693-5d7f6d80-a377-11eb-8daf-27f5361c8fa8.png"
+                width="355"
+              />
+            </div>
+          </Row>
+          <Row className="flex flex-row flex-nowrap">
+            <div className="flex flex-col w-33">
+              <img
+                alt="상품4번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660693-5d7f6d80-a377-11eb-8daf-27f5361c8fa8.png"
+                width="355"
+              />
 
-                <img src={itemsData[5].image_url} width="355" />
-              </div>
-              <div className="flex w-66">
-                <img src={itemsData[3].image_url} />
-              </div>
-            </Row>
-            <Row className="flex flex-row flex-nowrap">
-              <div className="flex w-50">
-                <img src={itemsData[2].image_url} />
-              </div>
-              <div className="flex w-50">
-                <img src={itemsData[5].image_url} />
-              </div>
-            </Row>
-          </div>
-        )}
+              <img
+                alt="상품5번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660691-5d7f6d80-a377-11eb-94b6-2f1f61beff2d.png"
+                width="355"
+              />
+            </div>
+            <div className="flex w-66">
+              <img
+                alt="상품3번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660695-5e180400-a377-11eb-9754-77847d4cc184.png"
+              />
+            </div>
+          </Row>
+          <Row className="flex flex-row flex-nowrap">
+            <div className="flex w-50">
+              <img
+                alt="상품2번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660696-5e180400-a377-11eb-8ecd-d849e252f377.png"
+              />
+            </div>
+            <div className="flex w-50">
+              <img
+                alt="상품5번이미지"
+                src="https://user-images.githubusercontent.com/46774456/115660691-5d7f6d80-a377-11eb-94b6-2f1f61beff2d.png"
+              />
+            </div>
+          </Row>
+        </div>
       </Page>
     </>
   );

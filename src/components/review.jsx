@@ -22,7 +22,7 @@ const Review = ({ name, image_url }) => {
               after={review.star}
               text={review.comment}
             >
-              <img slot="media" src={image_url} width="80" />
+              <img alt={name} slot="media" src={image_url} width="80" />
             </ListItem>
           ))}
         </List>

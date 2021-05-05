@@ -117,7 +117,7 @@ const ItemPage = (props) => {
   const onClickAddCart = async () => {
     if (!loggedIn) {
       f7.dialog.confirm("로그인하시겠습니까?", function () {
-        location.replace("/users/sign_in");
+        props.f7router.navigate("/users/sign_in");
       });
     } else if (alreadyHasItem) {
       return toast("해당 상품은 <br/> 장바구니에 담겨있습니다");
@@ -145,6 +145,13 @@ const ItemPage = (props) => {
     }
   };
 
+  const ITEM_DETAILS = [
+    { id: 1, name: "📆 FIRST RELEASE", content: `${itemData.gem_created_at}` },
+    { id: 2, name: "📅 LATEST RELEASE", content: `${itemData.gem_updated_at}` },
+    { id: 3, name: "⭐ STARS", content: `${itemData.github_star}` },
+    { id: 4, name: "🎢 VERSION", content: `${itemData.gem_version}` },
+  ];
+
   return (
     <Page name="item">
       <Navbar title={itemData.name} className="no-hairline" backLink="Back" />
@@ -160,7 +167,11 @@ const ItemPage = (props) => {
       <Block>
         <Swiper>
           <SwiperSlide>
-            <img className="resize" alt="상품이미지" src={itemData.image_url} />
+            <img
+              className="resize"
+              alt={itemData.name}
+              src={itemData.image_url}
+            />
           </SwiperSlide>
         </Swiper>
         <div className="flex flex-col justify-center items-center">
@@ -295,11 +306,4 @@ export default ItemPage;
 const PACKAGE_OPTIONS = [
   { id: 1, package_type: "베이직" },
   { id: 2, package_type: "프리미엄" },
-];
-
-const ITEM_DETAILS = [
-  { id: 1, name: "📆 FIRST RELEASE", content: `{itemData.gem_created_at}` },
-  { id: 2, name: "📅 LATEST RELEASE", content: `{itemData.gem_updated_at}` },
-  { id: 3, name: "⭐ STARS", content: `{itemData.github_star}` },
-  { id: 4, name: "🎢 VERSION", content: `{itemData.gem_version}` },
 ];
