@@ -18,13 +18,13 @@ import ItemList from "../../components/itemlist.jsx";
 import { getItems, getCategories } from "../../common/api";
 
 const ItemsPage = (props) => {
-  const onClickItem = (id) => {
-    props.f7router.navigate(`/items/${id}/`);
-  };
-
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);
   const [categoriesData, setCategoriesData] = useState([]);
   const [currentTab, setCurrentTab] = useState("tab1");
+
+  const onClickItem = (id) => {
+    props.f7router.navigate(`/items/${id}/`);
+  };
 
   useEffect(() => {
     const fetchItems = async () => {

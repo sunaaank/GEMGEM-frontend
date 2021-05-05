@@ -11,9 +11,13 @@ import {
   ListItem,
   Navbar,
   NavLeft,
+  NavRight,
   NavTitle,
+  Subnavbar,
+  Searchbar,
   Page,
   Row,
+  theme,
 } from "framework7-react";
 import React from "react";
 import { useRecoilState } from "recoil";
@@ -21,34 +25,56 @@ import { itemsDataState } from "../common/recoil.js";
 import { getToken } from "../common/auth";
 import AskLogin from "../components/askLogin.jsx";
 
-const UserItemPage = () => {
+const UserItemPage = (props) => {
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);
   let loggedIn = !!getToken().token;
+  const onClickItem = (id) => {
+    props.f7router.navigate(`/items/${id}/`);
+  };
+
   return (
     <Page name="useritem">
-      <Navbar title="위시리스트" className="no-hairline" />
-
-      {loggedIn ? (
-        <div className="p-3 m-0">
-          <div className="mx-4">
+      <Navbar className="no-hairline">
+        <NavTitle href="/">잼 찾기</NavTitle>
+        <NavRight>
+          <Link icon="las la-bars" panelOpen="right" />
+        </NavRight>
+        <Subnavbar inner={false}>
+          <Searchbar
+            searchContainer=".search-list"
+            searchIn=".item-title"
+            disableButton={!theme.aurora}
+          ></Searchbar>
+        </Subnavbar>
+      </Navbar>
+      <div class="searchbar-backdrop"></div>
+      <List className="searchbar-not-found">
+        <ListItem title="검색 결과가 없습니다"></ListItem>
+      </List>
+      <List className="search-list searchbar-found">
+        <div className="px-3 m-0">
+          <div className="mx-1">
             <ul className="ul flex flex-row justify-center flex-wrap ">
               {itemsData.map((item, index) => (
                 <div key={index}>
-                  <div className="flex flex-col items-center my-3 mx-3">
-                    <img alt={item.name} src={item.image_url} width="120" />
-                    <div className="mt-2 flex justify-center">
-                      <i className="f7-icons text-base mr-1">heart</i>
-                      <p className="font-semibold">{item.name}</p>
+                  <ListItem className="p-0 m-0">
+                    <div className="flex flex-col items-center">
+                      <img
+                        alt={item.name}
+                        src={item.image_url}
+                        width="120"
+                        className="mx-3"
+                        onClick={() => onClickItem(item.id)}
+                      />
+                      <div className="item-title">{item.name}</div>
                     </div>
-                  </div>
+                  </ListItem>
                 </div>
               ))}
             </ul>
           </div>
         </div>
-      ) : (
-        <AskLogin />
-      )}
+      </List>
     </Page>
   );
 };

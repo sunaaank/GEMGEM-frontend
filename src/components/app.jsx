@@ -131,19 +131,19 @@ const MyApp = () => {
               icon="las la-gem"
               text="SHOP"
             />
-            <Link tabLink="#view-useritem" icon="las la-box" text="MYGEM" />
+            <Link tabLink="#view-useritem" icon="las la-search" text="SEARCH" />
             <Link
               tabLink="#view-carts"
               id="tab-cart"
               icon="las la-shopping-basket"
               text="CART"
             />
-            <Link
+            {/*<Link
               tabLink="#view-users"
               icon="las la-user-secret"
               text="MYPAGE"
               id="tab-users"
-            />
+            />*/}
           </Toolbar>
           <View
             id="view-home"
@@ -157,7 +157,7 @@ const MyApp = () => {
           <View id="view-items" name="items" tab url="/items" />
           <View id="view-useritem" name="useritem" tab url="/useritem" />
           <View id="view-carts" name="cart" tab url="/cart" />
-          <View id="view-users" name="mypage" tab url="/mypage" />
+          {/* <View id="view-users" name="mypage" tab url="/mypage" />*/}
         </Views>
       </App>
     </RecoilRoot>

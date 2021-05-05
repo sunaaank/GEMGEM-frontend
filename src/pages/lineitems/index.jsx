@@ -20,7 +20,7 @@ import Cart from "../lineitems/components/cart.jsx";
 import NoCart from "../lineitems/components/nocart.jsx";
 import AskLogin from "../../components/askLogin.jsx";
 import { getToken } from "../../common/auth";
-import { deleteCart, updateOrder, getOrder } from "../../common/api";
+import { deleteCart, updateOrder } from "../../common/api";
 import { toast } from "../../js/utils.js";
 
 const CartPage = () => {
@@ -28,12 +28,6 @@ const CartPage = () => {
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
-  );
-  const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
-    alreadyHasCartState
-  );
-  const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
-    alreadyHasItemState
   );
   const [orderData, setOrderData] = useRecoilState(orderDataState);
 

@@ -38,6 +38,7 @@ import { toast, sleep } from "../js/utils.js";
 import { getOrder, updateOrder } from "../common/api";
 import { Formik, validateYupSchema } from "formik";
 import * as Yup from "yup";
+import { lte } from "lodash-es";
 
 const phoneRegExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
 
@@ -65,20 +66,22 @@ const OrderPage = () => {
 
   let loggedIn = !!getToken().token;
 
-  {
-    loggedIn &&
-      useEffect(() => {
-        const fetchOrder = async () => {
-          let res = await getOrder();
-          if (!!res.data) {
-            setOrderData(res.data);
-          }
-        };
+  let orderLength = orderData && orderData.length - 1;
 
-        fetchOrder();
-        console.log("주문데이터내놔order", orderData);
-      }, [cartData]);
-  }
+  // {
+  //   loggedIn &&
+  //     useEffect(() => {
+  //       const fetchOrder = async () => {
+  //         let res = await getOrder();
+  //         if (!!res.data) {
+  //           setOrderData(res.data);
+  //         }
+  //       };
+
+  //       fetchOrder();
+  //       console.log("주문데이터내놔order", orderData);
+  //     }, [cartData]);
+  // }
   return (
     <Page name="order" noToolBar>
       <Navbar title="주문 정보" noHairline sliding={false} backLink="Back" />
@@ -126,7 +129,7 @@ const OrderPage = () => {
 
           try {
             await updateOrder({
-              order_id: orderData.id,
+              order_id: orderData[orderLength].id,
               receiver_name: values.receiver_name,
               receiver_phone: values.receiver_phone,
               zipcode: "12323",

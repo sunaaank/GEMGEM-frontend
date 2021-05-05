@@ -30,8 +30,7 @@ import moment from "moment";
 import "moment/locale/ko";
 import ItemGuide from "./components/itemguide.jsx";
 import Review from "../../components/review.jsx";
-import { getItem } from "../../common/api";
-import { createCart } from "../../common/api";
+import { getItem, createCart } from "../../common/api";
 import { getToken } from "../../common/auth";
 import { toast } from "../../js/utils.js";
 
@@ -196,9 +195,6 @@ const ItemPage = (props) => {
                 <Icon f7="doc_text" color="red" />
               </button>
             </CopyToClipboard>
-            <i className="f7-icons" value={itemData.id}>
-              heart
-            </i>
           </div>
         </Block>
         <Block strong className="mx-8 mt-10 mb-4">

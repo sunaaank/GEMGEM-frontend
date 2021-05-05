@@ -10,7 +10,7 @@ import {
   itemsDataState,
 } from "../common/recoil.js";
 import { getToken } from "../common/auth";
-import { getCart, getUser } from "../common/api";
+import { getCart, getUser, getOrder } from "../common/api";
 
 const HomePage = () => {
   let loggedIn = !!getToken().token;
@@ -20,23 +20,22 @@ const HomePage = () => {
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
   );
-  const orderData = useRecoilValue(orderDataState);
+  const [orderData, setOrderData] = useRecoilState(orderDataState);
   const alreadyHasItem = useRecoilValue(alreadyHasItemState);
 
-  {
-    loggedIn &&
-      useEffect(() => {
-        const fetchCart = async () => {
-          let res = await getCart();
-          if (!!res.data) {
-            setCartData(res.data);
-          }
-          console.log("🎁getCart", cartData);
-        };
+  loggedIn &&
+    useEffect(() => {
+      const fetchCart = async () => {
+        let res = await getCart();
+        if (!!res.data) {
+          setCartData(res.data);
+        }
+      };
 
-        fetchCart();
-      }, [alreadyHasItem, cartTotalPrice]);
+      fetchCart();
+    }, [alreadyHasItem, cartTotalPrice]);
 
+  loggedIn &&
     useEffect(() => {
       const fetchUser = async () => {
         if (loggedIn) {
@@ -50,6 +49,7 @@ const HomePage = () => {
       fetchUser();
     }, []);
 
+  loggedIn &&
     useEffect(() => {
       const sumCartPrice = () => {
         let cartPrice = [0, 0];
@@ -62,7 +62,20 @@ const HomePage = () => {
 
       sumCartPrice();
     }, [cartData]);
-  }
+
+  loggedIn &&
+    useEffect(() => {
+      const fetchOrder = async () => {
+        let res = await getOrder();
+        if (!!res.data) {
+          setOrderData(res.data);
+        }
+      };
+
+      fetchOrder();
+      console.log("주문데이터내놔order", orderData);
+    }, [cartData]);
+
   return (
     <>
       <Navbar noHairline sliding={false}>

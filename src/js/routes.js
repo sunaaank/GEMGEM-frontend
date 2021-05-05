@@ -7,7 +7,7 @@ import ItemPage from "../pages/items/show.jsx";
 import UserItemPage from "../pages/useritem.jsx";
 import CartPage from "../pages/lineitems/index.jsx";
 import OrderPage from "../pages/order.jsx";
-import MyPage from "../pages/mypage.jsx";
+import MyPage from "../pages/mypage/mypage.jsx";
 import NotFoundPage from "../pages/404.jsx";
 
 const routes = [
