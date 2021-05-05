@@ -3,11 +3,12 @@ import React from "react";
 
 const NoCart = (props) => {
   return (
-    <div className="flex flex-col items-center h-screen py-40">
-      <i className="f7-icons text-gray-200" size="150">
+    <div className="flex flex-col items-center h-screen py-32">
+      <i id="no_cart" className="f7-icons text-gray-200">
         cart_badge_plus
       </i>
-      <div className="py-10">
+      <p className="my-4">장바구니가 비어있습니다</p>
+      <div className="pt-4 py-10">
         <Button
           large
           fill
