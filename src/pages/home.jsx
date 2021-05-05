@@ -100,39 +100,34 @@ const HomePage = () => {
 
       <Page name="home">
         {itemsData.length && (
-          <div className="p-0 mt-0 mx-8">
-            <Row className="justify-center">
-              <Col width="65">
+          <div className="p-0 mt-2 mx-10">
+            <Row className="flex flex-row flex-nowrap">
+              <div className="flex w-66">
                 <img src={itemsData[2].image_url} />
-              </Col>
-              <Col width="35">
-                <div>
-                  <img src={itemsData[5].image_url} />
+              </div>
+              <div className="flex flex-col w-33">
+                <img src={itemsData[5].image_url} width="355" />
 
-                  <img src={itemsData[4].image_url} />
-                </div>
-              </Col>
+                <img src={itemsData[4].image_url} width="355" />
+              </div>
             </Row>
-            <Row className="justify-center">
-              <Col width="35">
-                <div>
-                  <img src={itemsData[4].image_url} />
-                  <img src={itemsData[2].image_url} />
-                </div>
-              </Col>
+            <Row className="flex flex-row flex-nowrap">
+              <div className="flex flex-col w-33">
+                <img src={itemsData[4].image_url} width="355" />
 
-              <Col width="65">
+                <img src={itemsData[5].image_url} width="355" />
+              </div>
+              <div className="flex w-66">
                 <img src={itemsData[3].image_url} />
-              </Col>
+              </div>
             </Row>
-
-            <Row className="justify-center">
-              <Col>
+            <Row className="flex flex-row flex-nowrap">
+              <div className="flex w-50">
                 <img src={itemsData[2].image_url} />
-              </Col>
-              <Col>
+              </div>
+              <div className="flex w-50">
                 <img src={itemsData[5].image_url} />
-              </Col>
+              </div>
             </Row>
           </div>
         )}
