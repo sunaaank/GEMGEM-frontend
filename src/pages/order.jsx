@@ -145,7 +145,6 @@ const OrderPage = () => {
 
             if (!!res.data) {
               setOrderData(res.data);
-              setCartData(res.data.line_items);
             }
 
             f7.dialog.close();

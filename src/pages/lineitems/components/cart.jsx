@@ -9,8 +9,8 @@ const Cart = ({
   onClickOrder,
 }) => {
   return (
-    <div>
-      <List mediaList>
+    <div className="mb-20">
+      <List mediaList className="mt-0">
         <ul className="ul">
           <div className="flex flex-col">
             {cartData.map((item, index) => (
@@ -36,15 +36,24 @@ const Cart = ({
           </div>
         </ul>
       </List>
-
-      <div className="p-3 text-right">
-        <Row>
-          <Col width="66">배송비</Col>
-          <Col width="33">{cartTotalPrice < 33000 ? 3000 : 0} 원</Col>
+      <div className="flex flex-col font-medium text-lg">
+        <Row className="flex flex-row mb-2 w-full text-right">
+          <Col width="60">
+            <p>배송비</p>
+          </Col>
+          <Col width="40">
+            <p>{cartTotalPrice < 33000 ? 3000 : 0} 원</p>
+          </Col>
         </Row>
-        <Row>
-          <Col width="66">총 주문금액</Col>
-          <Col width="33">{cartTotalPrice} 원</Col>
+        <Row className="flex flex-row w-full text-right">
+          <Col width="60">
+            <p>총 주문금액</p>
+          </Col>
+          <Col width="40">
+            <p className="font-bold text-2xl text-red-500">
+              {cartTotalPrice} 원
+            </p>
+          </Col>
         </Row>
       </div>
 
@@ -52,7 +61,7 @@ const Cart = ({
         large
         raised
         fill
-        className="w-full fixed bottom-10 left-0"
+        className="w-full fixed bottom-14 left-0"
         href="/order"
         onClick={() => onClickOrder()}
       >
