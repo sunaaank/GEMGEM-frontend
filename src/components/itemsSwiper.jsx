@@ -16,8 +16,10 @@ import React from "react";
 const ItemsSwiper = ({ itemsData, onClickItem }) => {
   return (
     <>
-      <BlockTitle className="pt-10 font-bold">최근 본 상품</BlockTitle>
-      <Block>
+      <BlockTitle className="mx-7 mt-6 mb-4 font-semibold text-lg">
+        최근 본 상품
+      </BlockTitle>
+      <Block className="ml-7">
         <Swiper
           navigation
           speed={500}
@@ -29,8 +31,7 @@ const ItemsSwiper = ({ itemsData, onClickItem }) => {
           {itemsData.map((item, index) => (
             <SwiperSlide key={index}>
               <img src={item.image_url} onClick={() => onClickItem(item.id)} />
-              <h2>{item.name}</h2>
-              <p>{item.price}</p>
+              <h2 className="font-medium text-base pt-1">{item.name}</h2>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -1,4 +1,12 @@
-import { BlockTitle, Page, f7, Navbar } from "framework7-react";
+import {
+  BlockTitle,
+  Page,
+  f7,
+  Navbar,
+  NavTitle,
+  NavRight,
+  Link,
+} from "framework7-react";
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
@@ -75,7 +83,12 @@ const CartPage = () => {
 
   return (
     <Page name="cart">
-      <Navbar title="장바구니" className="no-hairline" />
+      <Navbar noHairline sliding={false}>
+        <NavTitle href="/">장바구니</NavTitle>
+        <NavRight>
+          <Link icon="las la-bars" panelOpen="right" />
+        </NavRight>
+      </Navbar>
 
       <div className="px-3 flex flex-col items-center">
         {loggedIn ? (

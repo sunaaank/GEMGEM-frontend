@@ -141,7 +141,6 @@ const ItemPage = (props) => {
         package_type: packageOption,
       });
 
-      // 🚩🚩🚩 모달창 추가하기(장바구니 바로가기 or 쇼핑 계속하기)
       f7.dialog.confirm(
         "장바구니를 확인하시겠습니까?",
         "장바구니에 상품이 담겼습니다",
@@ -161,7 +160,6 @@ const ItemPage = (props) => {
       <div
         className="fab fab-extended fab-right-bottom fixed color-red"
         onClick={() => onClickAddCart()}
-        // disabled={itemTotalPrice === "0" || (rentPeriod === "0" && true)}
       >
         <a href="#">
           <i className="icon f7-icons if-not-md">plus</i>

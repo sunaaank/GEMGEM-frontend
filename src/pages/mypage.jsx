@@ -4,7 +4,10 @@ import {
   f7,
   List,
   ListItem,
+  Link,
   Navbar,
+  NavTitle,
+  NavRight,
   Swiper,
   SwiperSlide,
   Page,
@@ -35,12 +38,19 @@ const MyPage = () => {
 
   return (
     <Page name="mypage">
-      <Navbar title="마이페이지" noHairline sliding={false} href="/" />
-      <div className="px-3 flex flex-col items-center">
+      <Navbar noHairline sliding={false}>
+        <NavTitle href="/">마이페이지</NavTitle>
+        <NavRight>
+          <Link icon="las la-bars" panelOpen="right" />
+        </NavRight>
+      </Navbar>
+      <div className="px-3 flex flex-col w-full">
         {loggedIn ? (
-          <div>
-            <p>주문내역</p>
-            <div className="ml-4">
+          <div className="py-3">
+            <BlockTitle className="mx-7 mt-6 mb-4 font-semibold text-lg">
+              주문내역
+            </BlockTitle>
+            <div className=" my-4">
               <ItemsSwiper
                 itemsData={itemsData}
                 onClickItem={() => onClickItem()}
