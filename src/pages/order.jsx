@@ -141,11 +141,8 @@ const OrderPage = () => {
               zipcode: "123423",
               address1: values.address,
               address2: "4층 인썸니아",
+              order_status: "paid",
             });
-
-            if (!!res.data) {
-              setOrderData(res.data);
-            }
 
             f7.dialog.close();
             toast("주문이 정상적으로 처리되었습니다");

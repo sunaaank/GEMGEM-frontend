@@ -46,24 +46,24 @@ const CartPage = () => {
     console.log("cartdelete", cartTotalPrice);
   };
 
-  {
-    loggedIn &&
-      useEffect(() => {
-        const fetchOrder = async () => {
-          let res = await getOrder();
-          if (!!res.data) {
-            setOrderData(res.data);
-          }
-        };
+  // {
+  //   loggedIn &&
+  //     useEffect(() => {
+  //       const fetchOrder = async () => {
+  //         let res = await getOrder();
+  //         if (!!res.data) {
+  //           setOrderData(res.data);
+  //         }
+  //       };
 
-        fetchOrder();
-        console.log("주문데이터내놔cart", orderData);
-      }, [cartData]);
-  }
+  //       fetchOrder();
+  //       console.log("주문데이터내놔cart", orderData);
+  //     }, [cartData]);
+  // }
 
   const onClickOrder = async () => {
     let res = await updateOrder({
-      order_id: orderData.id,
+      order_id: cartData.order_id,
       total: cartTotalPrice,
       order_status: "prepaid",
     });

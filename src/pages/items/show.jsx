@@ -164,9 +164,9 @@ const ItemPage = (props) => {
         // disabled={itemTotalPrice === "0" || (rentPeriod === "0" && true)}
       >
         <a href="#">
-          <i class="icon f7-icons if-not-md">plus</i>
-          <i class="icon material-icons md-only">add</i>
-          <div class="fab-text">장바구니 담기</div>
+          <i className="icon f7-icons if-not-md">plus</i>
+          <i className="icon material-icons md-only">add</i>
+          <div className="fab-text">장바구니 담기</div>
         </a>
       </div>
 
@@ -184,7 +184,7 @@ const ItemPage = (props) => {
 
         <Block className="mx-7 my-4">
           <div className="flex flex-row flex-nowrap justify-around items-center mx-20">
-            <Link href={itemData.github_url}>
+            <Link href={itemData.github_url} target="_blank" external={true}>
               <Icon f7="logo_github" className="mr-2" />
             </Link>
             <CopyToClipboard
@@ -193,7 +193,7 @@ const ItemPage = (props) => {
             >
               <button
                 className="w-auto outline-none focus:outline-none"
-                onClick={() => toast("잼 설치 코드 <br/> 클립보드 저장완료")}
+                onClick={() => toast("잼 설치 코드가 <br/> 복사되었습니다")}
               >
                 <Icon f7="doc_text" color="red" />
               </button>

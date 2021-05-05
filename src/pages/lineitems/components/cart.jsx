@@ -15,20 +15,21 @@ const Cart = ({
           <div className="flex flex-col">
             {cartData.map((item, index) => (
               <div key={index}>
-                <ListItem
-                  title={item.item.name}
-                  after={
-                    <i
-                      className="f7-icons"
-                      value={item.id}
-                      onClick={(e) => onClickDeleteCart(e)}
-                    >
-                      trash
-                    </i>
-                  }
-                  subtitle={`${item.package_type} | ${item.rent_startdate} ~ ${item.rent_enddate}`}
-                  text={item.total}
-                >
+                <ListItem>
+                  <div className="flex flex-row justify-between">
+                    <div className="item-title text-xl">{item.item.name}</div>
+                    <div className="item-after">
+                      <i
+                        className="f7-icons text-2xl"
+                        value={item.id}
+                        onClick={(e) => onClickDeleteCart(e)}
+                      >
+                        trash
+                      </i>
+                    </div>
+                  </div>
+                  <div className="item-subtitle">{`${item.package_type} | ${item.rent_startdate} ~ ${item.rent_enddate}`}</div>
+                  <div className="item-text">{item.total}</div>
                   <img slot="media" src={item.item.image_url} width="80" />
                 </ListItem>
               </div>
