@@ -189,8 +189,8 @@ const ItemPage = (props) => {
             </CopyToClipboard>
           </div>
         </Block>
-        <Block strong className="mx-8 mt-10 mb-4">
-          <List className="p-0">
+        <Block strong className="mx-4 mt-10 mb-4">
+          <List className="px-6">
             <ListInput
               label="대여시작일"
               name="startDate"

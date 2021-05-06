@@ -14,8 +14,8 @@ import {
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { itemsDataState } from "../../common/recoil.js";
-import ItemList from "../../components/itemlist.jsx";
 import { getItems, getCategories } from "../../common/api";
+import ItemList from "../../components/itemlist.jsx";
 
 const ItemsPage = (props) => {
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);
