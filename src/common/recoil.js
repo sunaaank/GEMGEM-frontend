@@ -58,3 +58,8 @@ export const orderDataState = atom({
   key: "orderDataState",
   default: [],
 });
+
+export const orderedItemsState = atom({
+  key: "orderedItemsState",
+  default: [],
+});

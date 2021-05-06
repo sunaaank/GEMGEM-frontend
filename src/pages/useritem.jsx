@@ -35,7 +35,7 @@ const UserItemPage = (props) => {
   return (
     <Page name="useritem">
       <Navbar className="no-hairline">
-        <NavTitle href="/">잼 찾기</NavTitle>
+        <NavTitle href="/">FIND GEMGEM</NavTitle>
         <NavRight>
           <Link icon="las la-bars" panelOpen="right" />
         </NavRight>
@@ -47,7 +47,7 @@ const UserItemPage = (props) => {
           ></Searchbar>
         </Subnavbar>
       </Navbar>
-      <div class="searchbar-backdrop"></div>
+      <div className="searchbar-backdrop"></div>
       <List className="searchbar-not-found">
         <ListItem title="검색 결과가 없습니다"></ListItem>
       </List>

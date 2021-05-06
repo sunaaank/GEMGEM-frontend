@@ -55,7 +55,7 @@ const ItemsPage = (props) => {
   return (
     <Page name="items" pageContent={false}>
       <Navbar noHairline sliding={false}>
-        <NavTitle href="/">GEMGEM</NavTitle>
+        <NavTitle href="/">GEMGEM SHOP</NavTitle>
         <NavRight>
           <Link icon="las la-bars" panelOpen="right" />
         </NavRight>

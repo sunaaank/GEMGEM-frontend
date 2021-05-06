@@ -2,12 +2,12 @@ import { Link, Navbar, NavRight, NavTitle, Page, Row } from "framework7-react";
 import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
+  itemsDataState,
   cartDataState,
   cartTotalPriceState,
   alreadyHasItemState,
   userDataState,
   orderDataState,
-  itemsDataState,
 } from "../common/recoil.js";
 import { getToken } from "../common/auth";
 import { getCart, getUser, getOrder } from "../common/api";
@@ -29,6 +29,7 @@ const HomePage = () => {
         let res = await getCart();
         if (!!res.data) {
           setCartData(res.data);
+          console.log("cartDataHome", cartData);
         }
       };
 
@@ -69,11 +70,11 @@ const HomePage = () => {
         let res = await getOrder();
         if (!!res.data) {
           setOrderData(res.data);
+          console.log("getOrderHome", orderData);
         }
       };
 
       fetchOrder();
-      console.log("주문데이터내놔order", orderData);
     }, [cartData]);
 
   return (

@@ -47,7 +47,7 @@ const CartPage = () => {
 
   const onClickOrder = async () => {
     let res = await updateOrder({
-      order_id: cartData[0].order_id,
+      order_id: orderData.id,
       total: cartTotalPrice,
     });
     if (!!res.data) {

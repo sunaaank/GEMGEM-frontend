@@ -68,9 +68,11 @@ const MyApp = () => {
             <PageContent className="flex items-center justify-center">
               <div className="flex flex-col items-center">
                 <Button
-                  href="/items"
-                  text="GEM STORE"
+                  text="GEM SHOP"
                   className="w-30 h-10 px-4 underline text-3xl"
+                  onClick={() => {
+                    document.getElementById("tab-items").click();
+                  }}
                   panelClose
                 />
                 <div className="p-3 flex flex-row justify-center w-full">

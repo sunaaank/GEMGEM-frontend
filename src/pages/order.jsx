@@ -66,22 +66,6 @@ const OrderPage = () => {
 
   let loggedIn = !!getToken().token;
 
-  let orderLength = orderData && orderData.length - 1;
-
-  // {
-  //   loggedIn &&
-  //     useEffect(() => {
-  //       const fetchOrder = async () => {
-  //         let res = await getOrder();
-  //         if (!!res.data) {
-  //           setOrderData(res.data);
-  //         }
-  //       };
-
-  //       fetchOrder();
-  //       console.log("주문데이터내놔order", orderData);
-  //     }, [cartData]);
-  // }
   return (
     <Page name="order" noToolBar>
       <Navbar title="주문 정보" noHairline sliding={false} backLink="Back" />
@@ -129,7 +113,7 @@ const OrderPage = () => {
 
           try {
             await updateOrder({
-              order_id: orderData[orderLength].id,
+              order_id: orderData.id,
               receiver_name: values.receiver_name,
               receiver_phone: values.receiver_phone,
               zipcode: "12323",
