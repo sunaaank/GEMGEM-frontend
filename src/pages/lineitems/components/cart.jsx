@@ -9,7 +9,7 @@ const Cart = ({
   onClickOrder,
 }) => {
   return (
-    <div className="mb-20">
+    <div className="mb-20 mt-7">
       <List mediaList className="mt-0">
         <ul className="ul">
           <div className="flex flex-col">
@@ -28,7 +28,9 @@ const Cart = ({
                       </i>
                     </div>
                   </div>
-                  <div className="item-subtitle">{item.total} 원</div>
+                  <div className="item-subtitle">
+                    {Number(item.total).toLocaleString()} 원
+                  </div>
                   <div className="item-subtitle">{`${item.package_type} | ${item.rent_startdate} ~ ${item.rent_enddate}`}</div>
                   <img
                     alt={item.item.name}
@@ -48,7 +50,9 @@ const Cart = ({
             <p>배송비</p>
           </Col>
           <Col width="40">
-            <p>{cartTotalPrice < 33000 ? 3000 : 0} 원</p>
+            <p>
+              {cartTotalPrice < 33000 ? Number(3000).toLocaleString() : 0} 원
+            </p>
           </Col>
         </Row>
         <Row className="flex flex-row w-full text-right">
@@ -57,7 +61,7 @@ const Cart = ({
           </Col>
           <Col width="40">
             <p className="font-bold text-2xl text-red-500">
-              {cartTotalPrice} 원
+              {Number(cartTotalPrice).toLocaleString()} 원
             </p>
           </Col>
         </Row>

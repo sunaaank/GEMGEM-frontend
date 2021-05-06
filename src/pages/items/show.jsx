@@ -250,7 +250,10 @@ const ItemPage = (props) => {
               </Col>
               <Col width="40">
                 <p className="font-bold text-2xl text-red-500">
-                  {itemTotalPrice ? itemTotalPrice : itemData.price}원
+                  {itemTotalPrice
+                    ? Number(itemTotalPrice).toLocaleString()
+                    : Number(itemData.price).toLocaleString()}
+                  원
                 </p>
               </Col>
             </Row>

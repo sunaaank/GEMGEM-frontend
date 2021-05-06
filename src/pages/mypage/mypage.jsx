@@ -8,7 +8,7 @@ import {
   NavRight,
   Page,
 } from "framework7-react";
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { itemsDataState, orderDataState } from "../../common/recoil.js";
 import { getToken } from "../../common/auth";
@@ -18,11 +18,14 @@ import AskLogin from "../../components/askLogin.jsx";
 const MyPage = () => {
   const itemsData = useRecoilValue(itemsDataState);
   const orderData = useRecoilValue(orderDataState);
+
   let loggedIn = !!getToken().token;
 
   const onClickItem = (id) => {
     props.f7router.navigate(`/items/${id}/`);
   };
+
+  const orderedItems = orderData.line_items;
 
   return (
     <Page name="mypage">
@@ -39,13 +42,7 @@ const MyPage = () => {
               주문내역
             </BlockTitle>
             <List mediaList>
-              {orderData.map((order) => (
-                <ListItem
-                  link="#"
-                  title={`주문번호: ${order.id}`}
-                  subtitle={`주문일자: ${order.updated_at}`}
-                />
-              ))}
+              <ListItem link="#" title={`주문번호:`} subtitle={`주문일자: `} />
             </List>
             <div className="my-4 w-full">
               <ItemsSwiper

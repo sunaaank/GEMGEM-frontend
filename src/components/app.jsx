@@ -159,7 +159,7 @@ const MyApp = () => {
           <View id="view-items" name="items" tab url="/items" />
           <View id="view-useritem" name="useritem" tab url="/useritem" />
           <View id="view-carts" name="cart" tab url="/cart" />
-          {/* <View id="view-users" name="mypage" tab url="/mypage" />*/}
+          {/*<View id="view-users" name="mypage" tab url="/mypage" />*/}
         </Views>
       </App>
     </RecoilRoot>

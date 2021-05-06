@@ -23,11 +23,16 @@ const ItemsList = ({ itemsData, onClickItem }) => {
             <ListItem
               key={index}
               title={item.name}
-              subtitle={item.price}
+              subtitle={Number(item.price).toLocaleString()}
               text={item.sub_category.name}
               onClick={() => onClickItem(item.id)}
             >
-              <img alt={item.name} slot="media" width="100" src={item.image_url} />
+              <img
+                alt={item.name}
+                slot="media"
+                width="100"
+                src={item.image_url}
+              />
             </ListItem>
           ))}
         </ul>
