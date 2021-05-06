@@ -173,7 +173,7 @@ const OrderPage = () => {
               </List>
             </Block>
             <BlockTitle className="mx-7 my-4 font-bold">배송지 정보</BlockTitle>
-            <Block className="mx-2">
+            <Block className="mx-7">
               <List inlineLabels noHairlines className="mt-0">
                 <ListInput
                   name="receiver_name"
@@ -186,9 +186,7 @@ const OrderPage = () => {
                   clearButton
                   onChange={handleChange}
                   onBlur={handleBlur}
-                >
-                  <Icon icon="demo-list-icon" slot="media" />
-                </ListInput>
+                ></ListInput>
                 <ListInput
                   name="address"
                   label="배송지"
@@ -200,9 +198,7 @@ const OrderPage = () => {
                   clearButton
                   onChange={handleChange}
                   onBlur={handleBlur}
-                >
-                  <Icon icon="demo-list-icon" slot="media" />
-                </ListInput>
+                ></ListInput>
                 <ListInput
                   name="receiver_phone"
                   label="연락처"
@@ -214,44 +210,45 @@ const OrderPage = () => {
                   clearButton
                   onChange={handleChange}
                   onBlur={handleBlur}
-                >
-                  <Icon icon="demo-list-icon" slot="media" />
-                </ListInput>
+                ></ListInput>
               </List>
             </Block>
-
-            <BlockTitle className="mx-7 my-4 font-bold">결제 수단</BlockTitle>
-            <Block className="mx-7">
-              <List className="mt-0">
-                <ListItem
-                  title="신용카드"
-                  selected={paySelected === "credit_card"}
-                  onClick={() => setPaySelected("credit_card")}
-                ></ListItem>
-                <ListItem
-                  title="휴대폰 결제"
-                  selected={paySelected === "phone"}
-                  onClick={() => setPaySelected("phone")}
-                ></ListItem>
-                <ListItem
-                  title="계좌이체"
-                  selected={paySelected === "bank"}
-                  onClick={() => setPaySelected("bank")}
-                ></ListItem>
-              </List>
-              <div className="p-1">
-                <Button
-                  type="submit"
-                  fill
-                  large
-                  className="button disabled:opacity-50"
-                  disabled={isSubmitting || !isValid}
-                  className="mb-10"
-                >
-                  결제하기
-                </Button>
-              </div>
+            <Block strong className="mt-10 ml-7 mr-3 pb-7">
+              <Row className="mb-3">
+                <Col width="33" className="font-bold">
+                  결제 수단
+                </Col>
+                <Col width="66" className="flex flex-row justify-start w-full">
+                  <List className="p-0 mt-0 mr-4 w-full">
+                    {PAYMENT_OPTIONS.map((option) => (
+                      <ListItem
+                        key={option.id}
+                        className="col"
+                        radio
+                        radioIcon="start"
+                        title={option.name}
+                        value={option.name}
+                        name="demo-radio-start"
+                        defaultChecked={option.id === 1 && true}
+                        onClick={() => setPaySelected(option.payment_type)}
+                      ></ListItem>
+                    ))}
+                  </List>
+                </Col>
+              </Row>
             </Block>
+            <div className="p-1">
+              <Button
+                type="submit"
+                fill
+                large
+                className="button disabled:opacity-50"
+                disabled={isSubmitting || !isValid}
+                className="mb-10"
+              >
+                결제하기
+              </Button>
+            </div>
           </form>
         )}
       </Formik>
@@ -259,3 +256,8 @@ const OrderPage = () => {
   );
 };
 export default OrderPage;
+
+const PAYMENT_OPTIONS = [
+  { id: 1, name: "신용카드", payment_type: "credit_card" },
+  { id: 2, name: "휴대폰 결제", payment_type: "phone" },
+];
