@@ -18,8 +18,6 @@ const PostCode = (props) => {
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-
-    console.log(fullAddress);
   };
 
   return (

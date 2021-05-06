@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 // User
 export const userDataState = atom({
@@ -45,11 +45,6 @@ export const cartTotalPriceState = atom({
 
 export const alreadyHasItemState = atom({
   key: "alreadyHasItemState",
-  default: false,
-});
-
-export const alreadyHasCartState = atom({
-  key: "alreadyHasCartState",
   default: false,
 });
 

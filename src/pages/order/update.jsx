@@ -3,39 +3,24 @@ import {
   BlockTitle,
   Button,
   Col,
-  Checkbox,
-  Icon,
-  Link,
   List,
   ListInput,
   ListItem,
-  PageContent,
-  Radio,
   f7,
-  Swiper,
-  SwiperSlide,
-  Toolbar,
-  Tabs,
-  Tab,
   Navbar,
-  NavLeft,
-  NavTitle,
   Page,
   Row,
-  Stepper,
-  create,
 } from "framework7-react";
-import React, { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
 import {
   cartDataState,
-  cartTotalPriceState,
   orderDataState,
   userDataState,
-} from "../common/recoil.js";
-import { getToken } from "../common/auth";
-import { toast, sleep } from "../js/utils.js";
-import { getOrder, updateOrder } from "../common/api";
+} from "../../common/recoil.js";
+import { getToken } from "../../common/auth";
+import { toast, sleep } from "../../js/utils.js";
+import { getOrder, updateOrder } from "../../common/api";
 import { Formik, validateYupSchema } from "formik";
 import * as Yup from "yup";
 import { lte } from "lodash-es";
@@ -60,9 +45,9 @@ const OrderSchema = Yup.object().shape({
 
 const OrderPage = () => {
   const [paySelected, setPaySelected] = useState("credit_card");
-  const [userData, setUserData] = useRecoilState(userDataState);
-  const [cartData, setCartData] = useRecoilState(cartDataState);
-  const [orderData, setOrderData] = useRecoilState(orderDataState);
+  const userData = useRecoilValue(userDataState);
+  const cartData = useRecoilValue(cartDataState);
+  const orderData = useRecoilValue(orderDataState);
 
   let loggedIn = !!getToken().token;
 

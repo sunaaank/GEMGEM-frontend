@@ -21,15 +21,14 @@ import {
   rentDateState,
   rentPeriodState,
   itemTotalPriceState,
-  alreadyHasCartState,
   alreadyHasItemState,
   cartDataState,
 } from "../../common/recoil.js";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import moment from "moment";
-import "moment/locale/ko";
 import ItemGuide from "./components/itemguide.jsx";
 import Review from "../../components/review.jsx";
+import moment from "moment";
+import "moment/locale/ko";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import { getItem, createCart } from "../../common/api";
 import { getToken } from "../../common/auth";
 import { toast } from "../../js/utils.js";
@@ -43,9 +42,6 @@ const ItemPage = (props) => {
   );
   const [rentDate, setRentDate] = useRecoilState(rentDateState);
   const [rentPeriod, setRentPeriod] = useRecoilState(rentPeriodState);
-  const [alreadyHasCart, setAlreadyHasCart] = useRecoilState(
-    alreadyHasCartState
-  );
   const [alreadyHasItem, setAlreadyHasItem] = useRecoilState(
     alreadyHasItemState
   );
@@ -56,7 +52,7 @@ const ItemPage = (props) => {
       let res = await getItem(props.f7route.params.id);
       if (!!res) {
         setItemData(res.data.result);
-        setAlreadyHasCart(res.data.hasCart);
+
         setAlreadyHasItem(res.data.hasThisItem);
       }
     };
@@ -64,13 +60,9 @@ const ItemPage = (props) => {
     fetchItem();
   }, [alreadyHasItem, cartData]);
 
-  console.log("🎁개별 아이템데이터", itemData);
-  console.log("🚛user has cart?", alreadyHasCart);
-  console.log("🗽user has this item?", alreadyHasItem);
-
   const onPackageChange = (e) => {
-    const { value } = e.target;
-    if (e.target.checked) {
+    const { value, checked } = e.target;
+    if (checked) {
       setPackageOption(value);
     } else {
       setPackageOption("베이직");

@@ -1,19 +1,9 @@
-import {
-  BlockTitle,
-  Page,
-  f7,
-  Navbar,
-  NavTitle,
-  NavRight,
-  Link,
-} from "framework7-react";
-import React, { useState, useEffect } from "react";
+import { Page, Navbar, NavTitle, NavRight, Link } from "framework7-react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import {
   cartDataState,
   cartTotalPriceState,
-  alreadyHasCartState,
-  alreadyHasItemState,
   orderDataState,
 } from "../../common/recoil.js";
 import Cart from "../lineitems/components/cart.jsx";

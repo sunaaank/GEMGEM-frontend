@@ -1,18 +1,14 @@
 import {
-  Block,
   BlockTitle,
-  f7,
   List,
   ListItem,
   Link,
   Navbar,
   NavTitle,
   NavRight,
-  Swiper,
-  SwiperSlide,
   Page,
 } from "framework7-react";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useRecoilValue } from "recoil";
 import { itemsDataState, orderDataState } from "../../common/recoil.js";
 import { getToken } from "../../common/auth";

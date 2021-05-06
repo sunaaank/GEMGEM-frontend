@@ -2,7 +2,6 @@ import { Link, Navbar, NavRight, NavTitle, Page, Row } from "framework7-react";
 import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  itemsDataState,
   cartDataState,
   cartTotalPriceState,
   alreadyHasItemState,
@@ -15,7 +14,6 @@ import { getCart, getUser, getOrder } from "../common/api";
 const HomePage = () => {
   let loggedIn = !!getToken().token;
   const [userData, setUserData] = useRecoilState(userDataState);
-  const itemsData = useRecoilValue(itemsDataState);
   const [cartData, setCartData] = useRecoilState(cartDataState);
   const [cartTotalPrice, setCartTotalPrice] = useRecoilState(
     cartTotalPriceState
@@ -29,7 +27,6 @@ const HomePage = () => {
         let res = await getCart();
         if (!!res.data) {
           setCartData(res.data);
-          console.log("cartDataHome", cartData);
         }
       };
 
@@ -70,7 +67,6 @@ const HomePage = () => {
         let res = await getOrder();
         if (!!res.data) {
           setOrderData(res.data);
-          console.log("getOrderHome", orderData);
         }
       };
 

@@ -1,33 +1,21 @@
 import {
-  Block,
-  BlockTitle,
-  Button,
-  Col,
-  Card,
-  CardContent,
-  CardHeader,
   Link,
   List,
   ListItem,
   Navbar,
-  NavLeft,
   NavRight,
   NavTitle,
   Subnavbar,
   Searchbar,
   Page,
-  Row,
   theme,
 } from "framework7-react";
 import React from "react";
 import { useRecoilState } from "recoil";
-import { itemsDataState } from "../common/recoil.js";
-import { getToken } from "../common/auth";
-import AskLogin from "../components/askLogin.jsx";
+import { itemsDataState } from "../../common/recoil.js";
 
 const UserItemPage = (props) => {
   const [itemsData, setItemsData] = useRecoilState(itemsDataState);
-  let loggedIn = !!getToken().token;
   const onClickItem = (id) => {
     props.f7router.navigate(`/items/${id}/`);
   };
@@ -54,7 +42,7 @@ const UserItemPage = (props) => {
       <List className="search-list searchbar-found">
         <div className="px-3 m-0">
           <div className="mx-1">
-            <ul className="ul flex flex-row justify-center flex-wrap ">
+            <ul className="ul flex flex-row justify-center flex-wrap">
               {itemsData.map((item, index) => (
                 <div key={index}>
                   <ListItem className="p-0 m-0">

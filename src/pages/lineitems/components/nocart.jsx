@@ -1,4 +1,4 @@
-import { Button, Link } from "framework7-react";
+import { Button } from "framework7-react";
 import React from "react";
 
 const NoCart = (props) => {
